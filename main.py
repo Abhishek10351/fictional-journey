@@ -22,9 +22,7 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
-        Normally, you'll call update() on the sprite lists that
-        need it.
-        """
+                """
         self.total_seconds += delta_time
         self.Player.update()
     def on_draw(self):
@@ -37,18 +35,12 @@ class Game(arcade.Window):
       
         self.Player.draw()
     def on_key_press(self, key, key_modifiers):
-        """
-        Called whenever a key on the keyboard is pressed.
-        """
         if key == arcade.key.LEFT and self.Player.left >=0:
             self.Player.change_x = -10
         if key == arcade.key.RIGHT:
             self.Player.change_x = +10
 
     def on_key_release(self, key, key_modifiers):
-        """
-        Called whenever the user lets off a previously pressed key.
-        """
         if key == arcade.key.LEFT:
             self.Player.change_x = 0
         if key == arcade.key.RIGHT:

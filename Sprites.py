@@ -1,3 +1,6 @@
+"""
+All the sprites needed for the game
+"""
 import arcade
 from constants import SCREEN_WIDTH
 

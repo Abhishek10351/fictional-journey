@@ -10,10 +10,13 @@ class Game(arcade.Window):
     def __init__(self):
         """Initialize the window
         """
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=False)
+        super().__init__(
+            SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=False)
         self.total_seconds = 0.0
         self.background = arcade.load_texture("assets/background.jpg")
-        self.player = Sprites.Player(":resources:images/space_shooter/playerShip1_blue.png", center_x=200, center_y=60)
+        self.player = Sprites.Player(
+            ":resources:images/space_shooter/playerShip1_blue.png",
+             center_x=200, center_y=60)
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """

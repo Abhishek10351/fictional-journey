@@ -1,6 +1,6 @@
 import arcade
 import arcade.gui
-import Sprites
+import sprites
 from constants import *
 
 

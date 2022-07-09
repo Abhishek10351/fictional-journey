@@ -17,7 +17,7 @@ class Game(arcade.Window):
             SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=False)
         self.total_seconds = 0.0
         self.background = arcade.load_texture("assets/background.jpg")
-        self.player = Sprites.Player(
+        self.player = sprites.Player(
             ":resources:images/space_shooter/playerShip1_blue.png",
             center_x=200, center_y=60)
 

@@ -6,9 +6,10 @@ from constants import SCREEN_WIDTH
 
 
 class Player(arcade.Sprite):
+    """ 
+    Sprite for controlling the player
+    """
     def update(self):
         self.center_x += self.change_x
-        if self.left <= 0:
-            self.left = max(0, self.left)
-        if self.right >= SCREEN_WIDTH:
-            self.right = min(self.right, SCREEN_WIDTH)
+        self.left = max(0, self.left)
+        self.right = min(self.right, SCREEN_WIDTH)

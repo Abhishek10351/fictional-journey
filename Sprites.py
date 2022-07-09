@@ -1,5 +1,5 @@
 import arcade
-from constants import *
+from constants import SCREEN_WIDTH
 
 
 class Player(arcade.Sprite):

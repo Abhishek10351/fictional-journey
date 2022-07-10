@@ -7,7 +7,7 @@ from constants import SCREEN_WIDTH
 
 class Player(arcade.Sprite):
 
-    """ 
+    """
     Sprite for controlling the player
     """
 

@@ -42,20 +42,20 @@ class Game(arcade.Window):
 
         self.player.draw()
 
-    def on_key_press(self, key, key_modifiers):
+    def on_key_press(self, key, modifiers):
         """Called when a key is pressed
         """
-        if key == arcade.key.LEFT:
+        if symbol == arcade.key.LEFT:
             self.player.change_x = -10
         if key == arcade.key.RIGHT:
             self.player.change_x = +10
 
-    def on_key_release(self, key, key_modifiers):
+    def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released
         """
-        if key == arcade.key.LEFT:
+        if symbol == arcade.key.LEFT:
             self.player.change_x = 0
-        if key == arcade.key.RIGHT:
+        if symbol == arcade.key.RIGHT:
             self.player.change_x = 0
 
 

@@ -40,12 +40,12 @@ class Game(arcade.Window):
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
 
-        self.Player.draw()
+        self.player.draw()
 
     def on_key_press(self, key, key_modifiers):
         """Called when a key is pressed
         """
-        if key == arcade.key.LEFT and self.Player.left >= 0:
+        if key == arcade.key.LEFT:
             self.player.change_x = -10
         if key == arcade.key.RIGHT:
             self.player.change_x = +10

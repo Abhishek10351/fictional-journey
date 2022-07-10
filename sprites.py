@@ -9,6 +9,7 @@ class Player(arcade.Sprite):
     """ 
     Sprite for controlling the player
     """
+
     def update(self):
         self.center_x += self.change_x
         self.left = max(0, self.left)

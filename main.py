@@ -14,7 +14,7 @@ class Game(arcade.Window):
         """Initialize the window
         """
         super().__init__(
-            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 
+            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
             constants.SCREEN_TITLE)
         self.total_seconds = 0.0
         self.background = arcade.load_texture("assets/background.jpg")

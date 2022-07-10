@@ -3,7 +3,7 @@ The main file to control the game
 """
 import arcade
 import sprites
-from constants import *
+import constants
 
 
 class Game(arcade.Window):
@@ -14,7 +14,7 @@ class Game(arcade.Window):
         """Initialize the window
         """
         super().__init__(
-            SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=False)
+            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE, resizable=False)
         self.total_seconds = 0.0
         self.background = arcade.load_texture("assets/background.jpg")
         self.player = sprites.Player(
@@ -37,7 +37,7 @@ class Game(arcade.Window):
         """
         self.clear()
         arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                                            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
                                             self.background)
 
         self.player.draw()

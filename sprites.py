@@ -26,3 +26,10 @@ class Bullet(arcade.Sprite):
     def update(self):
         self.center_y += 5
         self.top = max(0, self.top)
+
+
+class Enemy(arcade.Sprite):
+
+    """
+    Sprite for controlling the Enemy
+    """

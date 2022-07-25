@@ -6,6 +6,8 @@ import arcade
 import sprites
 import constants
 
+NO_OF_ENEMIES = 10
+
 
 class Game(arcade.Window):
     """Main welcome window
@@ -19,20 +21,30 @@ class Game(arcade.Window):
             constants.SCREEN_TITLE)
         self.total_seconds = 0.0
         self.background = None
+        self.score = 0
         self.player = None
         self.red_bullet = None
         self.blue_bullet = None
-        self.bullets = None
         self.bullet_list = None
+        self.enemy = None
+        self.enemy_list = None
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
-        self.bullet_list = arcade.SpriteList()
-        self.background = arcade.load_texture("assets/background.jpg")
+        self.background = arcade.load_texture("assets/imagesbackground.jpg")
         self.player = sprites.Player(
             ":resources:images/space_shooter/playerShip1_blue.png",
             center_x=constants.SCREEN_WIDTH/2, center_y=50)
+        self.bullet_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
+        total = 0
+        while total < NO_OF_ENEMIES:
+            self.enemy = sprites.Enemy("assets/images/enemy.png", center_x=random.randint(
+                0, 525), center_y=random.randint(350, 525))
+            if not self.enemy.collides_with_list(self.enemy_list):
+                total += 1
+                self.enemy_list.append(self.enemy)
 
     def on_update(self, delta_time):
         """
@@ -41,8 +53,12 @@ class Game(arcade.Window):
         self.total_seconds += delta_time
         self.player.update()
         for i in self.bullet_list:
-            if i.top >= constants.SCREEN_HEIGHT:
+            if i.top >= constants.SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
+                for j in i.collides_with_list(self.enemy_list):
+                    j.kill()
+                    self.score += 1
                 i.kill()
+        self.enemy_list.update()
         self.bullet_list.update()
 
     def on_draw(self):
@@ -54,6 +70,7 @@ class Game(arcade.Window):
                                             self.background)
 
         self.player.draw()
+        self.enemy_list.draw()
         self.bullet_list.draw()
 
     def on_key_press(self, symbol, modifiers):
@@ -72,8 +89,8 @@ class Game(arcade.Window):
                                              center_x=self.player.center_x,
                                              center_y=self.player.center_y+self.player.height,
                                              hit_box_algorithm="Detailed")
-            self.bullets = (self.red_bullet, self.blue_bullet)
-            self.bullet_list.append(random.choice(self.bullets))
+            self.bullet_list.append(random.choice(
+                (self.red_bullet, self.blue_bullet)))
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

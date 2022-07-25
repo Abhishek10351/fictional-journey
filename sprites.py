@@ -24,5 +24,5 @@ class Bullet(arcade.Sprite):
     """
 
     def update(self):
-        self.center_y += self.change_y
+        self.center_y += 5
         self.top = max(0, self.top)

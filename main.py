@@ -20,7 +20,8 @@ class Game(arcade.Window):
         self.background = arcade.load_texture("assets/background.jpg")
         self.player = sprites.Player(
             ":resources:images/space_shooter/playerShip1_blue.png",
-            center_x=200, center_y=60)
+            center_x=constants.SCREEN_WIDTH/2, center_y=50)
+        
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """

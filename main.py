@@ -2,6 +2,7 @@
 The main file to control the game
 """
 import random
+import pathlib
 import arcade
 import sprites
 import constants
@@ -34,7 +35,7 @@ class Game(arcade.Window):
         self.clear()
         self.background = arcade.load_texture("assets/images/background.jpg")
         self.player = sprites.Player(
-            ":resources:images/space_shooter/playerShip1_blue.png",
+            "assets/images/player.png",
             center_x=constants.SCREEN_WIDTH/2, center_y=50)
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
@@ -64,7 +65,9 @@ class Game(arcade.Window):
         for i in self.enemy_list:
             if i.left < 0 or i.right > constants.SCREEN_WIDTH:
                 i.change_x *= -1  # change enemy direction
-                i.change_y = -5
+                i.change_y = -5            
+                i.left = max(0,i.left)
+                i.right = min(i.right, constants.SCREEN_WIDTH)
         self.enemy_list.update()
         self.bullet_list.update()
         for i in self.enemy_list:
@@ -90,11 +93,11 @@ class Game(arcade.Window):
         if symbol == arcade.key.RIGHT:
             self.player.change_x = +10
         if symbol == arcade.key.SPACE:
-            self.blue_bullet = sprites.Bullet(":resources:/images/space_shooter/laserBlue01.png",
+            self.blue_bullet = sprites.Bullet("assets\images\laserBlue.png",
                                               center_x=self.player.center_x,
                                               center_y=self.player.center_y+self.player.height,
                                               hit_box_algorithm="Detailed", angle=90)
-            self.red_bullet = sprites.Bullet(":resources:/images/space_shooter/laserRed01.png",
+            self.red_bullet = sprites.Bullet("assets\images\laserRed.png",
                                              center_x=self.player.center_x,
                                              center_y=self.player.center_y+self.player.height,
                                              hit_box_algorithm="Detailed")

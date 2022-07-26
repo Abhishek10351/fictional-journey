@@ -32,7 +32,7 @@ class Game(arcade.Window):
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
-        self.background = arcade.load_texture("assets/imagesbackground.jpg")
+        self.background = arcade.load_texture("assets/images/background.jpg")
         self.player = sprites.Player(
             ":resources:images/space_shooter/playerShip1_blue.png",
             center_x=constants.SCREEN_WIDTH/2, center_y=50)
@@ -42,7 +42,10 @@ class Game(arcade.Window):
         while total < NO_OF_ENEMIES:
             self.enemy = sprites.Enemy("assets/images/enemy.png", center_x=random.randint(
                 0, 525), center_y=random.randint(350, 525))
-            if not self.enemy.collides_with_list(self.enemy_list):
+            enemy_x_change = list(range(-5, 5))
+            enemy_x_change.remove(0)
+            self.enemy.change_x = random.choice(enemy_x_change)
+            if not self.enemy.collides_with_list(self.enemy_list) or self.enemy.left > 0:
                 total += 1
                 self.enemy_list.append(self.enemy)
 
@@ -58,8 +61,14 @@ class Game(arcade.Window):
                     j.kill()
                     self.score += 1
                 i.kill()
+        for i in self.enemy_list:
+            if i.left < 0 or i.right > constants.SCREEN_WIDTH:
+                i.change_x *= -1  # change enemy direction
+                i.change_y = -5
         self.enemy_list.update()
         self.bullet_list.update()
+        for i in self.enemy_list:
+            i.change_y = 0
 
     def on_draw(self):
         """Render the screen
@@ -89,8 +98,9 @@ class Game(arcade.Window):
                                              center_x=self.player.center_x,
                                              center_y=self.player.center_y+self.player.height,
                                              hit_box_algorithm="Detailed")
-            self.bullet_list.append(random.choice(
-                (self.red_bullet, self.blue_bullet)))
+            bullet = random.choice((self.red_bullet, self.blue_bullet))
+            if not bullet.collides_with_list(self.bullet_list):
+                self.bullet_list.append(bullet)
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

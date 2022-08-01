@@ -34,6 +34,8 @@ class Game(arcade.Window):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
         self.background = arcade.load_texture("assets/images/background.jpg")
+        self.bg_music = arcade.sound.load_sound("assets/sounds/funkyrobot.mp3")
+        self.bg_music.play()
         self.player = sprites.Player(
             "assets/images/player.png",
             center_x=constants.SCREEN_WIDTH/2, center_y=50)

@@ -5,21 +5,21 @@ import random
 import pathlib
 import arcade
 import sprites
-import constants
+from constants import *
 import arcade.gui
-from game_gui import start_screen, start_button
+import views
+
+arcade.configure_logging(level=30)
 
 
-class Game(arcade.Window):
+class GameView(arcade.View):
     """Main welcome window
     """
 
     def __init__(self):
         """Initialize the window
         """
-        super().__init__(
-            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
-            constants.SCREEN_TITLE)
+        super().__init__()
         self.total_seconds = 0.0
         self.manager = None
         self.background = None
@@ -33,22 +33,36 @@ class Game(arcade.Window):
         self.no_of_enemies = None
         self.current_stage = "Start"
         self.level = 1
+        self.change = False
 
-    @start_button.event("on_click")
-    def start_button_click(self):
+        self.start_screen = arcade.gui.UIBoxLayout()
+        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
+        start_button.on_click = self.on_start_button_click
+        self.start_screen.add(start_button.with_space_around(bottom=20))
+        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200)
+        self.start_screen.add(quit_button)
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+
+        @quit_button.event
+        def on_click(event):
+            arcade.exit()
+
+    def on_start_button_click(self, event):
         self.current_stage = 1
+        self.setup()
+        self.change = False
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
-        self.manager = arcade.gui.UIManager()
-        self.manager.enable()
+
         if self.current_stage == "Start":
             self.manager.add(
                 arcade.gui.UIAnchorWidget(
                     anchor_x="center_x",
                     anchor_y="center_y",
-                    child=start_screen)
+                    child=self.start_screen)
             )
         elif self.current_stage == 1:
             self.background = arcade.load_texture(
@@ -59,7 +73,7 @@ class Game(arcade.Window):
             # self.bg_music.play()
             self.player = sprites.Player(
                 "assets/images/player.png",
-                center_x=constants.SCREEN_WIDTH/2, center_y=50)
+                center_x=SCREEN_WIDTH/2, center_y=50)
             self.bullet_list = arcade.SpriteList()
             self.enemy_list = arcade.SpriteList()
             total = 0
@@ -78,21 +92,23 @@ class Game(arcade.Window):
         All the logic to move, and the game logic goes here.
                 """
         self.total_seconds += delta_time
-        #print(self.current_stage)
         if self.current_stage == 1:
             self.player.update()
             for i in self.bullet_list:
-                if i.top >= constants.SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
+                if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                     for j in i.collides_with_list(self.enemy_list):
                         j.kill()
                         self.score += 1
                     i.kill()
             for i in self.enemy_list:
-                if i.left < 0 or i.right > constants.SCREEN_WIDTH:
+                if i.bottom <= self.player.top:
+                    view = views.GameOverView()
+                    self.window.show_view(view)
+                if i.left < 0 or i.right > SCREEN_WIDTH:
                     i.change_x *= -1  # change enemy direction
-                    i.change_y = -5
+                    i.change_y = -40
                     i.left = max(0, i.left)
-                    i.right = min(i.right, constants.SCREEN_WIDTH)
+                    i.right = min(i.right, SCREEN_WIDTH)
             self.enemy_list.update()
             self.bullet_list.update()
             for i in self.enemy_list:
@@ -104,7 +120,7 @@ class Game(arcade.Window):
         self.clear()
         if self.current_stage == 1:
             arcade.draw_lrwh_rectangle_textured(0, 0,
-                                                constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT,
+                                                SCREEN_WIDTH, SCREEN_HEIGHT,
                                                 self.background)
             self.player.draw()
             self.enemy_list.draw()
@@ -145,6 +161,8 @@ class Game(arcade.Window):
 
 
 if __name__ == "__main__":
-    app = Game()
-    app.setup()
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    start_view = GameView()
+    window.show_view(start_view)
+    start_view.setup()
     arcade.run()

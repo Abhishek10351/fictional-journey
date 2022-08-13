@@ -65,8 +65,8 @@ class GameView(arcade.View):
                     child=self.start_screen)
             )
         elif self.current_stage == 1:
-            self.background = arcade.load_texture(
-                "assets/images/background.jpg")
+            self.background = arcade.load_texture(pathlib.Path(
+                "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
             self.bg_music = arcade.sound.load_sound(
                 "assets/sounds/funkyrobot.mp3")
             self.no_of_enemies = 10
@@ -106,7 +106,7 @@ class GameView(arcade.View):
                     self.window.show_view(view)
                 if i.left < 0 or i.right > SCREEN_WIDTH:
                     i.change_x *= -1  # change enemy direction
-                    i.change_y = -40
+                    i.change_y = -10
                     i.left = max(0, i.left)
                     i.right = min(i.right, SCREEN_WIDTH)
             self.enemy_list.update()
@@ -138,15 +138,10 @@ class GameView(arcade.View):
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = +10
             if symbol == arcade.key.SPACE:
-                self.blue_bullet = sprites.Bullet("assets\images\laserBlue.png",
+                bullet = sprites.Bullet(f"assets\images\laser{random.choice(('Red', 'Blue'))}.png",
                                                   center_x=self.player.center_x,
                                                   center_y=self.player.center_y+self.player.height,
-                                                  hit_box_algorithm="Detailed", angle=90)
-                self.red_bullet = sprites.Bullet("assets\images\laserRed.png",
-                                                 center_x=self.player.center_x,
-                                                 center_y=self.player.center_y+self.player.height,
-                                                 hit_box_algorithm="Detailed")
-                bullet = random.choice((self.red_bullet, self.blue_bullet))
+                                                  hit_box_algorithm="Detailed")
                 if not bullet.collides_with_list(self.bullet_list):
                     self.bullet_list.append(bullet)
 

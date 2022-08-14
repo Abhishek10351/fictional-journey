@@ -132,4 +132,4 @@ dmypy.json
 .vscode/
 
 # for practicing and learning new libraries and classes
-.checks/
+checks/

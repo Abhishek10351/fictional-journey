@@ -130,3 +130,6 @@ dmypy.json
 
 #vscode
 .vscode/
+
+# for practicing and learning new libraries and classes
+.checks/

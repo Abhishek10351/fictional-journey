@@ -4,10 +4,13 @@ The main file to control the game
 import random
 import pathlib
 import arcade
+import pymunk
 import sprites
 from constants import *
 import arcade.gui
 import views
+import styles
+
 
 arcade.configure_logging(level=30)
 
@@ -21,6 +24,7 @@ class GameView(arcade.View):
         """
         super().__init__()
         self.total_seconds = 0.0
+        self.space = pymunk.Space()
         self.manager = None
         self.background = None
         self.score = 0
@@ -39,7 +43,7 @@ class GameView(arcade.View):
         start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
         start_button.on_click = self.on_start_button_click
         self.start_screen.add(start_button.with_space_around(bottom=20))
-        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200)
+        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200, style=styles.danger_style)
         self.start_screen.add(quit_button)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
@@ -139,9 +143,9 @@ class GameView(arcade.View):
                 self.player.change_x = +10
             if symbol == arcade.key.SPACE:
                 bullet = sprites.Bullet(f"assets\images\laser{random.choice(('Red', 'Blue'))}.png",
-                                                  center_x=self.player.center_x,
-                                                  center_y=self.player.center_y+self.player.height,
-                                                  hit_box_algorithm="Detailed")
+                                        center_x=self.player.center_x,
+                                        center_y=self.player.center_y+self.player.height,
+                                        hit_box_algorithm="Detailed")
                 if not bullet.collides_with_list(self.bullet_list):
                     self.bullet_list.append(bullet)
 

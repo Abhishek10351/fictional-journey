@@ -112,7 +112,7 @@ class GameView(arcade.View):
                     i.right = min(i.right, SCREEN_WIDTH)
             if len(self.enemy_list) == 0:
                 self.no_of_enemies += 10
-                self.window.show_view(self.window.views["LevelUp"](self.level))
+                self.window.show_view(self.window.views["LevelUp"])
                 self.level += 1
             self.enemy_list.update()
             self.bullet_list.update()
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     start_view = GameView()
     window.show_view(start_view)
     start_view.setup()   
-    window.views = {"Game": start_view, "LevelUp": views.LevelUpView, "GameOver": views.GameOverView()}
+    window.views = {"Game": start_view, "LevelUp": views.LevelUpView(), "GameOver": views.GameOverView()}
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()
 

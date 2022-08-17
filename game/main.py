@@ -4,10 +4,10 @@ The main file to control the game
 import random
 import pathlib
 import arcade
+import arcade.gui
 import pymunk
 import sprites
 from constants import *
-import arcade.gui
 import views
 import styles
 
@@ -24,13 +24,14 @@ class GameView(arcade.View):
         """
         super().__init__()
         self.total_seconds = 0.0
+        self.background = arcade.load_texture(pathlib.Path(
+            "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
+        self.bg_music = arcade.sound.load_sound(
+            "assets/sounds/funkyrobot.mp3")
         self.space = pymunk.Space()
         self.manager = None
-        self.background = None
         self.score = 0
         self.player = None
-        self.red_bullet = None
-        self.blue_bullet = None
         self.bullet_list = None
         self.enemy = None
         self.enemy_list = None
@@ -69,10 +70,6 @@ class GameView(arcade.View):
                     child=self.start_screen)
             )
         elif self.current_stage == 1:
-            self.background = arcade.load_texture(pathlib.Path(
-                "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-            self.bg_music = arcade.sound.load_sound(
-                "assets/sounds/funkyrobot.mp3")
             self.no_of_enemies = 10
             # self.bg_music.play()
             self.player = sprites.Player(
@@ -113,6 +110,10 @@ class GameView(arcade.View):
                     i.change_y = -10
                     i.left = max(0, i.left)
                     i.right = min(i.right, SCREEN_WIDTH)
+            if len(self.enemy_list) == 0:
+                self.no_of_enemies += 10
+                self.window.show_view(self.window.views["LevelUp"](self.level))
+                self.level += 1
             self.enemy_list.update()
             self.bullet_list.update()
             for i in self.enemy_list:
@@ -142,7 +143,7 @@ class GameView(arcade.View):
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = +10
             if symbol == arcade.key.SPACE:
-                bullet = sprites.Bullet(f"assets\images\laser{random.choice(('Red', 'Blue'))}.png",
+                bullet = sprites.Bullet(f"assets/images/laser{random.choice(('Red', 'Blue'))}.png",
                                         center_x=self.player.center_x,
                                         center_y=self.player.center_y+self.player.height,
                                         hit_box_algorithm="Detailed")
@@ -163,5 +164,8 @@ if __name__ == "__main__":
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     start_view = GameView()
     window.show_view(start_view)
-    start_view.setup()
+    start_view.setup()   
+    window.views = {"Game": start_view, "LevelUp": views.LevelUpView, "GameOver": views.GameOverView()}
+    arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()
+

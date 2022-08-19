@@ -26,8 +26,8 @@ class GameView(arcade.View):
         self.total_seconds = 0.0
         self.background = arcade.load_texture(pathlib.Path(
             "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-        self.bg_music = arcade.sound.load_sound(
-            "assets/sounds/funkyrobot.mp3")
+        self.bg_music = arcade.Sound(
+            "assets/music/funkyrobot.mp3")
         self.space = pymunk.Space()
         self.manager = None
         self.score = 0
@@ -40,11 +40,14 @@ class GameView(arcade.View):
         self.level = 1
         self.change = False
 
-        self.start_screen = arcade.gui.UIBoxLayout()
         start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
-        start_button.on_click = self.on_start_button_click
+        self.start_screen = arcade.gui.UIBoxLayout()
         self.start_screen.add(start_button.with_space_around(bottom=20))
-        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200, style=styles.danger_style)
+        self.how_to_play = arcade.gui.UIFlatButton(text="How to Play", width=200)
+        self.how_to_play.on_click = self.on_how_to_play_click
+        self.start_screen.add(self.how_to_play.with_space_around(bottom=20))
+        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200, style=styles.danger_button)
+        start_button.on_click = self.on_start_button_click
         self.start_screen.add(quit_button)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
@@ -57,6 +60,10 @@ class GameView(arcade.View):
         self.current_stage = 1
         self.setup()
         self.change = False
+    
+    def on_how_to_play_click(self, event):
+        self.current_stage = "Start"
+        self.window.show_view(self.window.views["HowToPlay"])
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
@@ -71,7 +78,6 @@ class GameView(arcade.View):
             )
         elif self.current_stage == 1:
             self.no_of_enemies = 10
-            # self.bg_music.play()
             self.player = sprites.Player(
                 "assets/images/player.png",
                 center_x=SCREEN_WIDTH/2, center_y=50)
@@ -99,6 +105,9 @@ class GameView(arcade.View):
                 if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                     for j in i.collides_with_list(self.enemy_list):
                         j.kill()
+                        sound = arcade.Sound("assets/sounds/hit.wav")
+                        sound.volume = 0.4
+                        sound.play()
                         self.score += 1
                     i.kill()
             for i in self.enemy_list:
@@ -149,6 +158,7 @@ class GameView(arcade.View):
                                         hit_box_algorithm="Detailed")
                 if not bullet.collides_with_list(self.bullet_list):
                     self.bullet_list.append(bullet)
+                    arcade.Sound("assets/sounds/laser.wav").play()
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released
@@ -158,14 +168,17 @@ class GameView(arcade.View):
                 self.player.change_x = 0
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = 0
+    
+    def on_mouse_press(self, x, y, button, modifiers):
+        clicked = True
 
 
 if __name__ == "__main__":
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     start_view = GameView()
     window.show_view(start_view)
-    start_view.setup()   
-    window.views = {"Game": start_view, "LevelUp": views.LevelUpView(), "GameOver": views.GameOverView()}
+    start_view.setup()
+    window.views = {"Game": start_view, "LevelUp": views.LevelUpView(), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()
 

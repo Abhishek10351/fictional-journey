@@ -1,6 +1,6 @@
 import arcade.color as color
 danger_button = {
-    "font_size": 15,
+    "font_size": 12,
     "font_color": color.WHITE,
     "border_width": 2,
     "border_color": color.SKY_BLUE,

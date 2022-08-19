@@ -92,8 +92,15 @@ class HowToPlay(arcade.View):
 
     @property
     def text(self):
-        return arcade.Text(self.message, 100, 400, bold=True, width=300,  multiline=True)
+        return arcade.Text(self.message, 100, 400, bold=True, width=300,  multiline=True ,color=arcade.color.RED, font_size=16)
 
     def on_draw(self):
         self.clear()
-        text.draw()
+        self.text.draw()
+    
+    def on_mouse_press(self, x, y, button, modifiers):
+        """ If the user presses the mouse button, re-start the game. """
+        game_view = self.window.views["Game"]
+        self.current_stage = self.level
+        game_view.setup()
+        self.window.show_view(game_view)

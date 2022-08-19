@@ -1,12 +1,11 @@
-import arcade
-danger_style = {
-    "font_name": ("calibri", "arial"),
+import arcade.color as color
+danger_button = {
     "font_size": 15,
-    "font_color": arcade.color.WHITE,
+    "font_color": color.WHITE,
     "border_width": 2,
-    "border_color": None,
+    "border_color": color.SKY_BLUE,
     "bg_color": (217, 4, 41),
     "bg_color_pressed": (255, 166, 158),
-    "border_color_pressed": (255, 166, 158),
-    "font_color_pressed": arcade.color.WHITE,
+    "border_color_pressed": (255, 166, 158)
+
 }

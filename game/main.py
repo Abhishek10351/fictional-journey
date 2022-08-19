@@ -36,34 +36,8 @@ class GameView(arcade.View):
         self.enemy = None
         self.enemy_list = None
         self.no_of_enemies = None
-        self.current_stage = "Start"
-        self.level = 1
-        self.change = False
-
-        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
-        self.start_screen = arcade.gui.UIBoxLayout()
-        self.start_screen.add(start_button.with_space_around(bottom=20))
-        self.how_to_play = arcade.gui.UIFlatButton(text="How to Play", width=200)
-        self.how_to_play.on_click = self.on_how_to_play_click
-        self.start_screen.add(self.how_to_play.with_space_around(bottom=20))
-        quit_button = arcade.gui.UIFlatButton(text="Exit", width=200, style=styles.danger_button)
-        start_button.on_click = self.on_start_button_click
-        self.start_screen.add(quit_button)
-        self.manager = arcade.gui.UIManager()
-        self.manager.enable()
-
-        @quit_button.event
-        def on_click(event):
-            arcade.exit()
-
-    def on_start_button_click(self, event):
         self.current_stage = 1
-        self.setup()
-        self.change = False
-    
-    def on_how_to_play_click(self, event):
-        self.current_stage = "Start"
-        self.window.show_view(self.window.views["HowToPlay"])
+        self.level = 1
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
@@ -112,7 +86,7 @@ class GameView(arcade.View):
                     i.kill()
             for i in self.enemy_list:
                 if i.bottom <= self.player.top:
-                    view = views.GameOverView()
+                    view = self.window.views["GameOver"]
                     self.window.show_view(view)
                 if i.left < 0 or i.right > SCREEN_WIDTH:
                     i.change_x *= -1  # change enemy direction
@@ -140,9 +114,6 @@ class GameView(arcade.View):
             self.enemy_list.draw()
             self.bullet_list.draw()
 
-        elif self.current_stage == "Start":
-            self.manager.draw()
-
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
@@ -168,7 +139,7 @@ class GameView(arcade.View):
                 self.player.change_x = 0
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = 0
-    
+
     def on_mouse_press(self, x, y, button, modifiers):
         clicked = True
 
@@ -176,9 +147,9 @@ class GameView(arcade.View):
 if __name__ == "__main__":
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     start_view = GameView()
-    window.show_view(start_view)
-    start_view.setup()
-    window.views = {"Game": start_view, "LevelUp": views.LevelUpView(), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
+    window.views = {"StartScreen": views.StartScreen(), "Game": start_view, "LevelUp": views.LevelUpView(
+    ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
+
+    window.show_view(window.views["StartScreen"])
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()
-

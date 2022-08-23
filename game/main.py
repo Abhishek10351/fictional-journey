@@ -29,28 +29,19 @@ class GameView(arcade.View):
         self.bg_music = arcade.Sound(
             "assets/music/funkyrobot.mp3")
         self.space = pymunk.Space()
-        self.manager = None
         self.score = 0
         self.player = None
         self.bullet_list = None
         self.enemy = None
         self.enemy_list = None
-        self.no_of_enemies = None
-        self.current_stage = 1
         self.level = 1
+        self.no_of_enemies = None
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
 
-        if self.current_stage == "Start":
-            self.manager.add(
-                arcade.gui.UIAnchorWidget(
-                    anchor_x="center_x",
-                    anchor_y="center_y",
-                    child=self.start_screen)
-            )
-        elif self.current_stage == 1:
+        if self.level == 1:
             self.no_of_enemies = 10
             self.player = sprites.Player(
                 "assets/images/player.png",
@@ -73,7 +64,7 @@ class GameView(arcade.View):
         All the logic to move, and the game logic goes here.
                 """
         self.total_seconds += delta_time
-        if self.current_stage == 1:
+        if self.level == 1:
             self.player.update()
             for i in self.bullet_list:
                 if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
@@ -106,7 +97,7 @@ class GameView(arcade.View):
         """Render the screen
         """
         self.clear()
-        if self.current_stage == 1:
+        if self.level == 1:
             arcade.draw_lrwh_rectangle_textured(0, 0,
                                                 SCREEN_WIDTH, SCREEN_HEIGHT,
                                                 self.background)
@@ -117,7 +108,7 @@ class GameView(arcade.View):
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
-        if self.current_stage == 1:
+        if self.level == 1:
             if symbol == arcade.key.LEFT:
                 self.player.change_x = -10
             if symbol == arcade.key.RIGHT:
@@ -134,14 +125,11 @@ class GameView(arcade.View):
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released
         """
-        if self.current_stage == 1:
+        if self.level == 1:
             if symbol == arcade.key.LEFT:
                 self.player.change_x = 0
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = 0
-
-    def on_mouse_press(self, x, y, button, modifiers):
-        clicked = True
 
 
 if __name__ == "__main__":

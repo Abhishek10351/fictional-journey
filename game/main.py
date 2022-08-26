@@ -137,7 +137,6 @@ if __name__ == "__main__":
     start_view = GameView()
     window.views = {"StartScreen": views.StartScreen(), "Game": start_view, "LevelUp": views.LevelUpView(
     ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
-
     window.show_view(window.views["StartScreen"])
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()

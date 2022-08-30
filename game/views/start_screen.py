@@ -50,3 +50,6 @@ class StartScreen(arcade.View):
 
     def on_hide_view(self):
         self.manager.disable()
+
+    def on_show_view(self):
+        self.manager.enable()

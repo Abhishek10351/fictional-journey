@@ -12,9 +12,6 @@ import views
 import styles
 
 
-arcade.configure_logging(level=30)
-
-
 class GameView(arcade.View):
     """Main welcome window
     """
@@ -26,8 +23,6 @@ class GameView(arcade.View):
         self.total_seconds = 0.0
         self.background = arcade.load_texture(pathlib.Path(
             "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-        self.bg_music = arcade.Sound(
-            "assets/music/funkyrobot.mp3")
         self.space = pymunk.Space()
         self.score = 0
         self.player = None
@@ -70,9 +65,7 @@ class GameView(arcade.View):
                 if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                     for j in i.collides_with_list(self.enemy_list):
                         j.kill()
-                        sound = arcade.Sound("assets/sounds/hit.wav")
-                        sound.volume = 0.4
-                        sound.play()
+                        arcade.Sound("assets/sounds/hit.wav").play(volume=0.2)
                         self.score += 1
                     i.kill()
             for i in self.enemy_list:
@@ -85,9 +78,11 @@ class GameView(arcade.View):
                     i.left = max(0, i.left)
                     i.right = min(i.right, SCREEN_WIDTH)
             if len(self.enemy_list) == 0:
-                self.no_of_enemies += 10
                 self.window.show_view(self.window.views["LevelUp"])
-                self.level += 1
+                if self.level < self.window.total_levels:
+                    self.level += 1
+                else:
+                    self.completed = True
             self.enemy_list.update()
             self.bullet_list.update()
             for i in self.enemy_list:
@@ -114,13 +109,14 @@ class GameView(arcade.View):
             if symbol == arcade.key.RIGHT:
                 self.player.change_x = +10
             if symbol == arcade.key.SPACE:
-                bullet = sprites.Bullet(f"assets/images/laser{random.choice(('Red', 'Blue'))}.png",
+                colour = random.choice(('Red', 'Blue'))
+                bullet = sprites.Bullet(f"assets/images/laser{colour}.png",
                                         center_x=self.player.center_x,
                                         center_y=self.player.center_y+self.player.height,
                                         hit_box_algorithm="Detailed")
                 if not bullet.collides_with_list(self.bullet_list):
                     self.bullet_list.append(bullet)
-                    arcade.Sound("assets/sounds/laser.wav").play()
+                    arcade.Sound("assets/sounds/laser.wav").play(volume=0.2)
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released
@@ -132,8 +128,21 @@ class GameView(arcade.View):
                 self.player.change_x = 0
 
 
+class Window(arcade.Window):
+    def __init__(self, width, height, title):
+        """
+        Set up the application.
+        """
+        super().__init__(width, height, title)
+        self.total_levels = 1
+        self.level = 1
+        self.bg_music = arcade.Sound(
+            "assets/music/funkyrobot.mp3")
+        self.completed = True
+
+
 if __name__ == "__main__":
-    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     start_view = GameView()
     window.views = {"StartScreen": views.StartScreen(), "Game": start_view, "LevelUp": views.LevelUpView(
     ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}

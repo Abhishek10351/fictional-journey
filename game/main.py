@@ -39,13 +39,13 @@ class GameView(arcade.View):
         if self.level == 1:
             self.no_of_enemies = 10
             self.player = sprites.Player(
-                "assets/images/player.png",
+                "assets/images/players/player1.png",
                 center_x=SCREEN_WIDTH/2, center_y=50)
             self.bullet_list = arcade.SpriteList()
             self.enemy_list = arcade.SpriteList()
             total = 0
             while total < self.no_of_enemies:
-                self.enemy = sprites.Enemy("assets/images/enemy.png", center_x=random.randint(
+                self.enemy = sprites.Enemy("assets/images/aliens/enemy.png", center_x=random.randint(
                     0, 525), center_y=random.randint(350, 525))
                 enemy_x_change = list(range(-5, 5))
                 enemy_x_change.remove(0)
@@ -110,7 +110,7 @@ class GameView(arcade.View):
                 self.player.change_x = +10
             if symbol == arcade.key.SPACE:
                 colour = random.choice(('Red', 'Blue'))
-                bullet = sprites.Bullet(f"assets/images/laser{colour}.png",
+                bullet = sprites.Bullet(f"assets/images/lasers/{colour}.png",
                                         center_x=self.player.center_x,
                                         center_y=self.player.center_y+self.player.height,
                                         hit_box_algorithm="Detailed")

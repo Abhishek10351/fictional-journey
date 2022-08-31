@@ -34,14 +34,14 @@ class Level1(arcade.View):
         self.enemy_list = arcade.SpriteList()
         total = 0
         while total < self.no_of_enemies:
-            self.enemy = sprites.Enemy("assets/images/aliens/enemy.png", center_x=random.randint(
+            enemy = sprites.Enemy("assets/images/aliens/enemy.png", center_x=random.randint(
                 0, 525), center_y=random.randint(350, 525))
             enemy_x_change = list(range(-5, 5))
             enemy_x_change.remove(0)
             enemy.change_x = random.choice(enemy_x_change)
             if not enemy.collides_with_list(self.enemy_list) or enemy.left > 0:
                 total += 1
-                self.enemy_list.append(self.enemy)
+                self.enemy_list.append(enemy)
 
     def on_update(self, delta_time):
         """

@@ -13,7 +13,7 @@ class LevelUpView(arcade.View):
 
     @property
     def level(self):
-        return self.window.views["Game"].level
+        return self.window.level
 
     @property
     def message(self):

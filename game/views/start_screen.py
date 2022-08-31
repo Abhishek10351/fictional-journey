@@ -33,7 +33,7 @@ class StartScreen(arcade.View):
             arcade.exit()
 
     def on_start_button_click(self, event):
-        view = self.window.views["Game"]
+        view = self.window.levels[1]
         view.setup()
         self.window.show_view(view)
 
@@ -42,7 +42,7 @@ class StartScreen(arcade.View):
 
     @property
     def level(self):
-        return self.window.views["Game"].level
+        return self.window.level
 
     def on_draw(self):
         self.clear()

@@ -12,3 +12,9 @@ class Window(arcade.Window):
         self.bg_music = arcade.Sound(
             "assets/music/funkyrobot.mp3")
         self.completed = False
+        self.total_time = 0
+        self.sound = True
+        self.music = False
+
+    def on_update(self, delta_time):
+        self.total_time += delta_time

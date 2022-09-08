@@ -34,7 +34,7 @@ class Level2(arcade.View):
         self.enemy_list = arcade.SpriteList()
         total = 0
         while total < self.no_of_enemies:
-            enemy = sprites.Enemy("assets/images/aliens/enemy.png", center_x=random.randint(
+            enemy = sprites.Enemy1("assets/images/aliens/enemy.png", center_x=random.randint(
                 0, 525), center_y=random.randint(350, 525))
             enemy_x_change = list(range(-5, 5))
             enemy_x_change.remove(0)

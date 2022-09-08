@@ -28,7 +28,7 @@ class Level2(arcade.View):
         self.clear()
 
         self.player = sprites.Player(
-            "assets/images/players/player1.png",
+            "assets/images/players/player_blue.png",
             center_x=SCREEN_WIDTH/2, center_y=50)
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()

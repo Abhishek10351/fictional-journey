@@ -12,6 +12,7 @@ danger_button = {
 primary_button = {
     "font_color": color.WHITE,
     "border_width": 2,
-    "bg_color": (41, 128, 185),
-    "border_color_pressed": (52, 152, 219)
+    "bg_color": (52, 152, 219),
+    "bg_color_pressed": (41, 128, 185),
+    "border_color_pressed": (41, 128, 185)
 }

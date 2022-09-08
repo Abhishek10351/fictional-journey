@@ -18,6 +18,6 @@ if __name__ == "__main__":
     window.views = {"StartScreen": start_view, "Game": start_view, "LevelUp": views.LevelUpView(
     ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
     window.show_view(window.views["StartScreen"])
-    window.levels = {1: views.levels.Level1(), 2: views.levels.Level2()}
+    window.levels = [getattr(views.levels, i)()  for i in dir(views.levels) if i.startswith("Level")]
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()

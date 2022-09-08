@@ -11,11 +11,11 @@ class StartScreen(arcade.View):
         self.start_screen = arcade.gui.UIBoxLayout()
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
         start_button = arcade.gui.UIFlatButton(
-            text="Start Game", width=200, style=styles.primary_button)
+            text="Start Game", width=200, style=styles.dark_button)
         start_button.on_click = self.on_start_button_click
         self.start_screen.add(start_button.with_space_around(bottom=20))
         how_to_play = arcade.gui.UIFlatButton(
-            text="How to Play", width=200)
+            text="How to Play", width=200, style=styles.dark_button)
         how_to_play.on_click = self.on_how_to_play_click
         self.start_screen.add(how_to_play.with_space_around(bottom=20))
         quit_button = arcade.gui.UIFlatButton(

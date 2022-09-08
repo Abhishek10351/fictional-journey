@@ -25,7 +25,7 @@ class HowToPlay(arcade.View):
 
     @property
     def text(self):
-        return arcade.Text(self.message, 100, 400, bold=True, width=400,  multiline=True, color=arcade.color.RED, font_size=16, align="center")
+        return arcade.Text(self.message, 100, 400, bold=True, width=400,  multiline=True, color=arcade.color.RED, font_size=16, align="center", font_name= "Kenney Future Narrow")
 
     def on_draw(self):
         self.clear()

@@ -12,17 +12,13 @@ class LevelUpView(arcade.View):
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
 
     @property
-    def level(self):
-        return self.window.level
-
-    @property
     def message(self):
-        return f"You have completed level {self.level-1}.\nClick to continue."
+        return f"You have completed level {self.window.current_level}.\nClick to continue."
 
     @property
     def text(self):
         return arcade.Text(self.message, 100, 400, bold=True, width=300,
-                           font_name="Kenney High Square", font_size=60, multiline=True)
+                           font_name="Kenney Future Narrow", font_size=40, multiline=True)
 
     def on_draw(self):
         """ Draw this view """

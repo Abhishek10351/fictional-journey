@@ -2,6 +2,7 @@ import arcade
 import arcade.gui
 from constants import *
 import styles
+from views import levelselection
 
 
 class StartScreen(arcade.View):
@@ -9,7 +10,8 @@ class StartScreen(arcade.View):
         super().__init__()
         self.start_screen = arcade.gui.UIBoxLayout()
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
-        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
+        start_button = arcade.gui.UIFlatButton(
+            text="Start Game", width=200, style=styles.primary_button)
         start_button.on_click = self.on_start_button_click
         self.start_screen.add(start_button.with_space_around(bottom=20))
         how_to_play = arcade.gui.UIFlatButton(
@@ -29,13 +31,11 @@ class StartScreen(arcade.View):
         )
 
         @quit_button.event
-        def on_click(event):
+        def on_click(self, event):
             arcade.exit()
 
     def on_start_button_click(self, event):
-        view = self.window.levels[1]
-        view.setup()
-        self.window.show_view(view)
+        self.window.show_view(levelselection.LevelSelection())
 
     def on_how_to_play_click(self, event):
         self.window.show_view(self.window.views["HowToPlay"])

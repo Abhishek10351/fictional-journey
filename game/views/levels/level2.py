@@ -65,9 +65,10 @@ class Level2(arcade.View):
                 i.change_y = -10
                 i.left = max(0, i.left)
                 i.right = min(i.right, SCREEN_WIDTH)
-            
+
         if len(self.enemy_list) == 0:
-            self.window.level = 2
+            if self.window.levels_completed < self.window.current_level:
+                self.window.levels_completed = 2
             self.window.completed = True
             self.window.show_view(self.window.views["LevelUp"])
         self.enemy_list.update()

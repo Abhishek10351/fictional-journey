@@ -22,6 +22,7 @@ class LevelSelection(arcade.View):
 
     def on_click(self, event):
         button = event.source
+        self.window.current_level = button.text
         game_level = self.window.levels[button.text - 1]
         game_level.setup()
         self.window.show_view(game_level)

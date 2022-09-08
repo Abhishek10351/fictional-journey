@@ -1,4 +1,5 @@
 import arcade
+import pyglet.media
 
 
 class Window(arcade.Window):
@@ -7,14 +8,15 @@ class Window(arcade.Window):
         Set up the application.
         """
         super().__init__(width, height, title)
-        self.total_levels = 2
-        self.level = 1
-        self.bg_music = arcade.Sound(
-            "assets/music/funkyrobot.mp3")
-        self.completed = False
-        self.total_time = 0
+        self.total_time = 0.0
         self.sound = True
-        self.music = False
+        self.music = True
+        self.total_levels = 2
+        self.levels_completed = 1  # the last level completed
+        self.current_level = 1  # the level currently played
+        self.bg_music = pyglet.media.Player()
+        self.bg_music.queue(pyglet.media.load("assets/music/funkyrobot.mp3"))
+        self.completed = False
 
     def on_update(self, delta_time):
         self.total_time += delta_time

@@ -24,8 +24,9 @@ class LevelSelection(arcade.View):
         button = event.source
         self.window.current_level = button.text
         game_level = self.window.levels[button.text - 1]
-        game_level.setup()
-        self.window.show_view(game_level)
+        if self.window.current_level <= (self.window.levels_completed+1):
+            game_level.setup()
+            self.window.show_view(game_level)
 
     def on_draw(self):
         self.clear()

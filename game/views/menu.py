@@ -5,7 +5,7 @@ import styles
 from views import levelselection
 
 
-class StartScreen(arcade.View):
+class Menu(arcade.View):
     def __init__(self):
         super().__init__()
         self.start_screen = arcade.gui.UIBoxLayout()

@@ -10,14 +10,16 @@ from constants import *
 import views
 import styles
 from window import Window
-
+import pyglet.image
 
 if __name__ == "__main__":
     window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    start_view = views.StartScreen()
-    window.views = {"StartScreen": start_view, "Game": start_view, "LevelUp": views.LevelUpView(
+    window.set_icon(pyglet.image.load(
+        'assets/images/players/player_green.png'))
+    window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(
     ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
-    window.show_view(window.views["StartScreen"])
-    window.levels = [getattr(views.levels, i)()  for i in dir(views.levels) if i.startswith("Level")]
+    window.show_view(window.views["Menu"])
+    window.levels = [getattr(views.levels, i)()
+                     for i in dir(views.levels) if i.startswith("Level")]
     arcade.set_background_color(arcade.color.SKY_BLUE)
     arcade.run()

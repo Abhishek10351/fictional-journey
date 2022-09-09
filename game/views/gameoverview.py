@@ -15,7 +15,7 @@ class GameOverView(arcade.View):
 
     @property
     def message(self):
-        return f"You have lost level {self.current_level}.\nClick to continue."
+        return f"You have lost level {self.window.current_level}.\nClick to continue."
 
     @property
     def text(self):

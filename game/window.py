@@ -12,7 +12,7 @@ class Window(arcade.Window):
         self.sound = True
         self.music = True
         self.total_levels = 2
-        self.levels_completed = 1  # the last level completed
+        self.levels_completed = 0  # the last level completed
         self.current_level = 1  # the level currently played
         self.bg_music = pyglet.media.Player()
         self.bg_music.queue(pyglet.media.load("assets/music/funkyrobot.mp3"))

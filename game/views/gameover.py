@@ -2,15 +2,14 @@ import arcade
 import arcade.gui
 from constants import *
 import styles
-
+import pathlib
 
 class GameOverView(arcade.View):
     """ View to show when game is over """
 
     def __init__(self):
         super().__init__()
-        self.texture = arcade.load_texture(
-            "assets/images/background.jpg")
+        self.texture = arcade.load_texture(pathlib.Path("assets/images/background.jpg"))
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
 
     @property
@@ -20,7 +19,7 @@ class GameOverView(arcade.View):
     @property
     def text(self):
         return arcade.Text(self.message, 100, 400, bold=True, width=300,
-                           font_name="Kenney Future Narrow", font_size=40, multiline=True)
+                           font_name="Kenney Future", font_size=40, multiline=True)
 
     def on_draw(self):
         self.clear()

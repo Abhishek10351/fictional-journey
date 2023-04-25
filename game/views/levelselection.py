@@ -8,8 +8,8 @@ class LevelSelection(arcade.View):
     def __init__(self):
         super().__init__()
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
-        self.buttons = [arcade.gui.UIFlatButton(
-            text=i+1, width=60, style=styles.primary_button) for i in range(self.window.total_levels)]
+        self.buttons = [arcade.gui.widgets.buttons.UIFlatButton(
+            text=str(i+1), width=60, style=styles.primary_button) for i in range(self.window.total_levels)]
         self.levels = arcade.gui.UIBoxLayout(
             x=10, y=500, vertical=False, space_between=20, children=self.buttons)
 
@@ -22,8 +22,9 @@ class LevelSelection(arcade.View):
 
     def on_click(self, event):
         button = event.source
-        self.window.current_level = button.text
-        game_level = self.window.levels[button.text - 1]
+        text = int(button.text)
+        self.window.current_level = text
+        game_level = self.window.levels[ text - 1]
         if self.window.current_level <= (self.window.levels_completed+1):
             game_level.setup()
             self.window.show_view(game_level)

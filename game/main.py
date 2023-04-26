@@ -18,9 +18,12 @@ if __name__ == "__main__":
     window.set_icon(pyglet.image.load(
         Path('assets/images/aliens/enemy.png')))
     window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(
-    ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay()}
+    ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(), "Settings": views.SettingsView()}
     window.show_view(window.views["Menu"])
     window.levels = [getattr(views.levels, i)()
                      for i in dir(views.levels) if i.startswith("Level")]
     arcade.set_background_color(arcade.color.SKY_BLUE)
+
     arcade.run()
+
+# https://trello.com/b/oAkhlW4y/space-invaders

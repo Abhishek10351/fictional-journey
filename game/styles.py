@@ -1,5 +1,6 @@
 import arcade.color as color
 from arcade.gui import UIFlatButton
+from arcade.gui import UITextureButton
 
 danger_button = {
     "normal": UIFlatButton.UIStyle(
@@ -54,28 +55,23 @@ primary_button = {
     )
 }
 
-dark_button = {
-    "normal": UIFlatButton.UIStyle(
+dark_texture_button = {
+    "normal": UITextureButton.UIStyle(
         font_size=12,
         font_name="Kenney Future",
-        font_color=color.WHITE,
-        bg=(21, 19, 21)
+        font_color=color.WHITE
     ),
-    "hover": UIFlatButton.UIStyle(
+    "hover": UITextureButton.UIStyle(
         font_name="Kenney Future",
-        font_color=color.WHITE,
-        border=color.WHITE,
-        border_width=2,
+        font_color=color.WHITE
     ),
-    "press": UIFlatButton.UIStyle(
+    "press": UITextureButton.UIStyle(
         font_name="Kenney Future",
-        font_color=(21, 19, 21),
-        bg=color.WHITE
+        font_color=(21, 19, 21)
     ),
-    "disabled": UIFlatButton.UIStyle(
+    "disabled": UITextureButton.UIStyle(
         font_name="Kenney Future",
-        font_color=color.WHITE,
-        bg=(41, 128, 185),
+        font_color=color.WHITE
     )
 }
 light_button = {
@@ -101,5 +97,29 @@ light_button = {
         font_name="Kenney Future",
         font_color=(21, 19, 21),
         bg=color.WHITE,
+    )
+}
+dark_button = {
+    "normal": UIFlatButton.UIStyle(
+        font_size=12,
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(21, 19, 21)
+    ),
+    "hover": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        border=color.WHITE,
+        border_width=2,
+    ),
+    "press": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=(21, 19, 21),
+        bg=color.WHITE
+    ),
+    "disabled": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(41, 128, 185),
     )
 }

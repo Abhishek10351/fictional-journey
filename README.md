@@ -17,3 +17,5 @@ to install the needed third libraries just type
 pip install -r requirements.txt
 ```
 in the terminal.
+## Running the game
+To run the game try opening the game folder and click the main.py file or just open it using the terminal and run it using python

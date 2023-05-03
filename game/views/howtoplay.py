@@ -1,7 +1,7 @@
 import arcade
 import arcade.gui
 from constants import *
-
+from gui_widgets import BackButton
 
 class HowToPlay(arcade.View):
 
@@ -18,13 +18,26 @@ class HowToPlay(arcade.View):
 
         self.text = arcade.Text(self.message, 100, 400, bold=True, width=400,  multiline=True,
                                 color=arcade.color.RED, font_size=14, align="center", font_name="Comic Sans ms")
+        button = BackButton(y=SCREEN_HEIGHT)
+        self.manager = arcade.gui.UIManager()
+        self.manager.add(button)
+        @button.event
+        def on_click(event):
+            self.window.show_view(self.window.views["Menu"])
 
     def on_draw(self):
         self.clear()
         self.text.draw()
+        self.manager.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """ If the user presses the mouse button, re-start the game. """
 
         game_view = self.window.views["Menu"]
         self.window.show_view(game_view)
+    
+    def on_hide_view(self):
+        self.manager.disable()
+    
+    def on_show_view(self):
+        self.manager.enable()

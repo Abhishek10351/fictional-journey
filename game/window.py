@@ -28,5 +28,5 @@ class Window(arcade.Window):
         return self.views["Settings"].music_button.value
     
     @property
-    def play_sound(selfi):
-        return selfi.views["Settings"].sound_button.value
+    def play_sound(self):
+        return self.views["Settings"].sound_button.value

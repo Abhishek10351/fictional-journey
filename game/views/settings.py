@@ -1,17 +1,15 @@
 import arcade
 import arcade.gui
 from datetime import timedelta
-from arcade.gui.widgets.slider import UISlider
 import styles
-import arcade.gui.widgets
-
+from gui_widgets import BackButton
 
 class SettingsView(arcade.View):
     def __init__(self):
         super().__init__()
         self.settings_screen = arcade.gui.UIBoxLayout()
 
-        back_button = arcade.gui.UIFlatButton(text="Back", width=200)
+        back_button = BackButton()
 
         self.music_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/musicOn.png"), off_texture=arcade.load_texture(
             "assets/gui/musicOff.png"), width=50, height=50)
@@ -25,7 +23,7 @@ class SettingsView(arcade.View):
         self.sound_control = arcade.gui.UIBoxLayout(vertical = False, space_between=40)
 
         self.label = arcade.gui.UILabel(text="Settings", font_size=30)
-        slider = UISlider(value=50, width=300, height=50)
+        slider = arcade.gui.UISlider(value=50, width=300, height=50)
 
         self.sound_control.add(self.music_button)
         self.sound_control.add(self.sound_button)

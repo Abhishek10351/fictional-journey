@@ -18,9 +18,15 @@ class Window(arcade.Window):
         self.completed = False
         self.game_level_time = timedelta(seconds=0.0)
         self.volume = 0.5
-        self.play_music = True
-        self.play_sound = True
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
         self.game_level_time += timedelta(seconds=delta_time)
+    
+    @property
+    def play_music(self):
+        return self.views["Settings"].music_button.value
+    
+    @property
+    def play_sound(selfi):
+        return selfi.views["Settings"].sound_button.value

@@ -53,7 +53,8 @@ class Level1(arcade.View):
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
-                    arcade.Sound("assets/sounds/hit.wav").play(volume=0.2)
+                    if self.window.play_sound:
+                        arcade.Sound("assets/sounds/hit.wav").play(volume=0.20)
                     self.score += 1
                 i.kill()
         for i in self.enemy_list:
@@ -101,7 +102,8 @@ class Level1(arcade.View):
                                     hit_box_algorithm="Detailed")
             if not bullet.collides_with_list(self.bullet_list):
                 self.bullet_list.append(bullet)
-                arcade.Sound("assets/sounds/laser.wav").play(volume=0.2)
+                if self.window.play_sound:
+                    arcade.Sound("assets/sounds/laser.wav").play(volume=0.5)
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

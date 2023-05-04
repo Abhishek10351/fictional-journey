@@ -18,7 +18,7 @@ class HowToPlay(arcade.View):
 
         self.text = arcade.Text(self.message, 100, 400, bold=True, width=400,  multiline=True,
                                 color=arcade.color.RED, font_size=14, align="center", font_name="Comic Sans ms")
-        button = BackButton(y=SCREEN_HEIGHT)
+        button = BackButton()
         self.manager = arcade.gui.UIManager()
         self.manager.add(button)
         @button.event

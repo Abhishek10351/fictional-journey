@@ -27,7 +27,6 @@ class SettingsView(arcade.View):
 
         self.sound_control.add(self.music_button)
         self.sound_control.add(self.sound_button)
-        self.settings_screen.add(back_button)
         # self.settings_screen.add(self.label)
         # self.settings_screen.add(slider)
 
@@ -38,6 +37,7 @@ class SettingsView(arcade.View):
         
         self.manager = arcade.gui.UIManager()
         self.manager.add(self.ui_anchor_layout)
+        self.manager.add(back_button)
         self.manager.enable()
 
         @back_button.event("on_click")
@@ -48,7 +48,6 @@ class SettingsView(arcade.View):
     def on_update(self, delta_time):
         time = self.window.game_level_time
         self.label.text = f"{time.seconds//60}:{time.seconds%60}:{time.microseconds//10000}"
-        print(self.sound_button.value)
 
     def on_draw(self):
         self.clear()

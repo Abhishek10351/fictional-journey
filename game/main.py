@@ -17,8 +17,9 @@ if __name__ == "__main__":
     window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.set_icon(pyglet.image.load(
         Path('assets/images/aliens/enemy.png')))
-    window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(
-    ), "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(), "Settings": views.SettingsView()}
+    window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(), 
+    "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(), "Settings": views.SettingsView(), 
+    "Pause": views.PauseScreen()}
     window.show_view(window.views["Menu"])
     window.levels = [getattr(views.levels, i)()
                      for i in dir(views.levels) if i.startswith("Level")]

@@ -14,6 +14,7 @@ import pyglet.image
 from pathlib import Path
 
 if __name__ == "__main__":
+    
     window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.set_icon(pyglet.image.load(
         Path('assets/images/aliens/enemy.png')))
@@ -25,6 +26,12 @@ if __name__ == "__main__":
                      for i in dir(views.levels) if i.startswith("Level")]
     arcade.set_background_color(arcade.color.SKY_BLUE)
 
-    arcade.run()
+    try:
+        arcade.run()
+    except KeyboardInterrupt:
+        arcade.exit()
+    except Exception as e:
+        print(e)
+        arcade.exit()
 
 # https://trello.com/b/oAkhlW4y/space-invaders

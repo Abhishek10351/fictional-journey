@@ -16,6 +16,7 @@ from pathlib import Path
 if __name__ == "__main__":
     
     window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    
     window.set_icon(pyglet.image.load(
         Path('assets/images/aliens/enemy.png')))
     window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(), 
@@ -33,5 +34,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         arcade.exit()
-
-# https://trello.com/b/oAkhlW4y/space-invaders

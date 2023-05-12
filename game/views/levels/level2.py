@@ -4,8 +4,6 @@ import arcade
 import arcade.gui
 import sprites
 from constants import *
-import views
-import styles
 
 
 class Level2(arcade.View):
@@ -90,6 +88,9 @@ class Level2(arcade.View):
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
+
+        if symbol == arcade.key.P:
+            self.window.show_view(self.window.views["Pause"])
         if symbol == arcade.key.LEFT:
             self.player.change_x = -10
         if symbol == arcade.key.RIGHT:

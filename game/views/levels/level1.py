@@ -60,6 +60,7 @@ class Level1(arcade.View):
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 view = self.window.views["GameOver"]
+                view.setup()
                 self.window.show_view(view)
             if i.left < 0 or i.right > SCREEN_WIDTH:
                 i.change_x *= -1  # change enemy direction

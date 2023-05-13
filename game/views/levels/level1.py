@@ -92,6 +92,8 @@ class Level1(arcade.View):
         """
         if symbol == arcade.key.P:
             self.window.show_view(self.window.views["Pause"])
+        if symbol == arcade.key.R:
+            self.setup()
         if symbol == arcade.key.LEFT:
             self.player.change_x = -10
         if symbol == arcade.key.RIGHT:

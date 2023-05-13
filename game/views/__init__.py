@@ -8,4 +8,4 @@ from .levels import *
 
 
 __all__ = ['Menu', 'HowToPlay',
-           'GameOverView', 'LevelUpView', 'SettingsView', 'PauseScreen',  'Level1', 'Level2']
+           'GameOverView', 'LevelUpView', 'SettingsView', 'PauseScreen']

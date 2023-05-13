@@ -5,8 +5,8 @@ This the section where we will talk about the gameplay of the game. This will in
 
 ## Controls
 
-(Only for PC, and only on keyboard)
-You can use the left and right arrow keys to move around, and the spacebar to shoot the enemies. 
+(Only for PC, and works only on keyboard)
+You can use the left and right arrow keys to move around, and the spacebar to shoot the enemies.
 Destroy all the enemies to win the levels.
 
 ## Mechanics

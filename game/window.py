@@ -10,7 +10,7 @@ class Window(arcade.Window):
         """
         super().__init__(width, height, title)
         self.total_time = timedelta(seconds=0.0)
-        self.total_levels = 2
+        self.total_levels = 3
         self.levels_completed = 0  # the last level completed
         self.current_level = 1  # the level currently played
         self.bg_music = pyglet.media.Player()
@@ -22,11 +22,11 @@ class Window(arcade.Window):
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
         self.game_level_time += timedelta(seconds=delta_time)
-    
+
     @property
     def play_music(self):
         return self.views["Settings"].music_button.value
-    
+
     @property
     def play_sound(self):
         return self.views["Settings"].sound_button.value

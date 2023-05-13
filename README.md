@@ -24,4 +24,16 @@ in the terminal.
 
 ## Running the game
 
-To run the game try opening the game folder and click the [main.py](/game/main.py) file or just open it using the terminal and run it using python
+To run the game try opening the game folder and click the [main.py](/game/main.py) file or just open it using the terminal and run it using python by typing
+
+```python
+python main.py
+```
+
+for linux users and mac users
+
+```python
+python3 main.py
+```
+
+To get help on gameplay check out [GAMEPLAY](/GAMEPLAY.md) .

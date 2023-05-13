@@ -1,8 +1,8 @@
 import arcade
 import arcade.gui
 from datetime import timedelta
-import styles
 from gui_widgets import BackButton
+from gui_textures.slider import UITextureSlider
 
 class SettingsView(arcade.View):
     def __init__(self):
@@ -14,21 +14,20 @@ class SettingsView(arcade.View):
         self.music_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/musicOn.png"), off_texture=arcade.load_texture(
             "assets/gui/musicOff.png"), width=50, height=50)
         self.music_button.with_background(texture=arcade.load_texture(
-            "assets/gui/button_textures/blue_button03.png"))
+            "assets/gui/textures/blue_button03.png"))
         
         self.sound_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/soundOn.png"), off_texture=arcade.load_texture(
             "assets/gui/soundOff.png"), width=50, height=50, value=True)
-        self.sound_button.with_background(texture=arcade.load_texture("assets/gui/button_textures/blue_button03.png"))
+        self.sound_button.with_background(texture=arcade.load_texture("assets/gui/textures/blue_button03.png"))
 
         self.sound_control = arcade.gui.UIBoxLayout(vertical = False, space_between=40)
 
         self.label = arcade.gui.UILabel(text="Settings", font_size=30)
-        slider = arcade.gui.UISlider(value=50, width=300, height=50)
+        slider = UITextureSlider(value=50, width=300, height=50)
 
         self.sound_control.add(self.music_button)
         self.sound_control.add(self.sound_button)
-        # self.settings_screen.add(self.label)
-        # self.settings_screen.add(slider)
+        self.settings_screen.add(slider)
 
 
         self.ui_anchor_layout = arcade.gui.UIAnchorLayout()

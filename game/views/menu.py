@@ -47,10 +47,10 @@ class Menu(arcade.View):
             arcade.exit()
 
     def on_settings_button_click(self, event):
-        self.window.show_view(settings.SettingsView())
+        self.window.show_view(self.window.views["Settings"])
 
     def on_start_button_click(self, event):
-        self.window.show_view(levelselection.LevelSelection())
+        self.window.show_view(self.window.views["LevelSelect"])
 
     def on_how_to_play_click(self, event):
         self.window.show_view(self.window.views["HowToPlay"])

@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     window.set_icon(pyglet.image.load(
         Path('assets/images/aliens/enemy.png')))
-    window.views = {"Menu": views.Menu(), "LevelUp": views.LevelUpView(),
+    window.views = {"Menu": views.Menu(), "LevelSelect": views.LevelSelection(), "LevelUp": views.LevelUpView(),
                     "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(),
                     "Settings": views.SettingsView(), "Pause": views.PauseScreen()
                     }

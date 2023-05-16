@@ -3,6 +3,7 @@ import arcade.gui
 from constants import *
 import styles
 from gui_widgets import BackButton
+from texture_button import LevelButton
 
 
 class LevelSelection(arcade.View):
@@ -16,10 +17,10 @@ class LevelSelection(arcade.View):
         def on_click(event):
             self.window.show_view(self.window.views["Menu"])
 
-        self.buttons = [arcade.gui.UIFlatButton(
-            text=str(i+1), width=60, style=styles.primary_button) for i in range(self.window.total_levels)]
+        self.buttons = [LevelButton(
+            text=str(i+1)) for i in range(self.window.total_levels)]
         self.levels = arcade.gui.UIBoxLayout(
-            x=10, y=500, vertical=False, space_between=20, children=self.buttons)
+            x=10, y=400, vertical=False, space_between=20, children=self.buttons)
 
         for i in self.buttons:
             i.on_click = self.on_click

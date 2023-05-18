@@ -55,6 +55,31 @@ success_button = {
         bg=(46, 204, 113)
     )
 }
+warning_button = {
+    "normal": UIFlatButton.UIStyle(
+        font_size=12,
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(241, 196, 15)  # Warning button background color
+    ),
+    "hover": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(241, 196, 15),
+        border=(230, 162, 18),  # Hover border color
+        border_width=2,
+    ),
+    "press": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(230, 162, 18)  # Pressed button background color
+    ),
+    "disabled": UIFlatButton.UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=(230, 162, 18)
+    )
+}
 
 danger_button = {
     "normal": UIStyle(

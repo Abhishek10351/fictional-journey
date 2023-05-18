@@ -3,7 +3,7 @@ from arcade.gui import UITextureButton
 
 UIStyle = UITextureButton.UIStyle
 
-dark_texture_button = {
+styled_texture_button = {
     "normal": UIStyle(
         font_size=12,
         font_name="Kenney Future",

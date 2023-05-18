@@ -4,34 +4,25 @@ import arcade
 import arcade.gui
 import sprites
 from constants import *
-import views
-import styles
+from ..level import *
 
 
-class Level1(arcade.View):
+class Level1(Level):
 
     def __init__(self):
         """Initialize the window
         """
         super().__init__()
-        self.total_seconds = 0.0
-        self.background = arcade.load_texture(pathlib.Path(
-            "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-        self.score = 0
-        self.player = None
-        self.bullet_list = None
-        self.enemy_list = None
         self.no_of_enemies = 10
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
+        super().setup()
 
         self.player = sprites.Player(
             "assets/images/players/player_blue.png",
             center_x=SCREEN_WIDTH/2, center_y=50)
-        self.bullet_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
         total = 0
         while total < self.no_of_enemies:
             enemy = sprites.Enemy1("assets/images/aliens/enemy.png", center_x=random.randint(
@@ -47,14 +38,11 @@ class Level1(arcade.View):
         """
         All the logic to move, and the game logic goes here.
                 """
-        self.total_seconds += delta_time
-        self.player.update()
-        for i in self.bullet_list:
+        for i in self.bullets:
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
-                    if self.window.play_sound:
-                        arcade.Sound("assets/sounds/hit.wav").play(volume=0.20)
+                    arcade.Sound("assets/sounds/hit.wav").play(volume=0.2)
                     self.score += 1
                 i.kill()
         for i in self.enemy_list:
@@ -70,31 +58,25 @@ class Level1(arcade.View):
 
         if len(self.enemy_list) == 0:
             if self.window.levels_completed < self.window.current_level:
-                self.window.levels_completed = 1
+                self.window.levels_completed = 2
+            self.window.completed = True
             self.window.show_view(self.window.views["LevelUp"])
-        self.enemy_list.update()
-        self.bullet_list.update()
         for i in self.enemy_list:
             i.change_y = 0
+
+        super().on_update(delta_time)
 
     def on_draw(self):
         """Render the screen
         """
-        self.clear()
-        arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                                            self.background)
-        self.player.draw()
-        self.enemy_list.draw()
-        self.bullet_list.draw()
+        super().on_draw()
 
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
-        if symbol == arcade.key.P:
-            self.window.show_view(self.window.views["Pause"])
-        if symbol == arcade.key.R:
-            self.setup()
+
+        super().on_key_press(symbol, modifiers)
+
         if symbol == arcade.key.LEFT:
             self.player.change_x = -10
         if symbol == arcade.key.RIGHT:
@@ -105,10 +87,9 @@ class Level1(arcade.View):
                                     center_x=self.player.center_x,
                                     center_y=self.player.center_y+self.player.height,
                                     hit_box_algorithm="Detailed")
-            if not bullet.collides_with_list(self.bullet_list):
-                self.bullet_list.append(bullet)
-                if self.window.play_sound:
-                    arcade.Sound("assets/sounds/laser.wav").play(volume=0.5)
+            if not bullet.collides_with_list(self.bullets):
+                self.bullets.append(bullet)
+                arcade.Sound("assets/sounds/laser.wav").play(volume=0.2)
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

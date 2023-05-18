@@ -2,44 +2,36 @@ import random
 import pathlib
 import arcade
 import arcade.gui
+from arcade.hitbox import algo_detailed
 import sprites
 from constants import *
-import views
-import styles
+from ..level import *
 
 
-class Level3(arcade.View):
+class Level3(Level):
 
     def __init__(self):
         """Initialize the window
         """
         super().__init__()
-        self.total_seconds = 0.0
         self.background = arcade.load_texture(pathlib.Path(
             "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-        self.score = 0
-        self.player = None
-        self.bullet_list = None
-        self.enemy_list = None
-        self.no_of_enemies = 10
+        self.no_of_enemies = 20
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """
         self.clear()
-        self.total_seconds = 0.0
-        self.score = 0
+        super().setup()
 
         self.player = sprites.Player(
-            "assets/images/players/player_blue.png",
+            arcade.load_texture(pathlib.Path("assets/images/players/player_blue.png"),
+                                hit_box_algorithm=algo_detailed()),
             center_x=SCREEN_WIDTH/2, center_y=50)
-        self.bullet_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
-        self.enemy_bullet_list = arcade.SpriteList()
 
         self.enemy_bullets_shooted = 0
         total = 0
         while total < self.no_of_enemies:
-            enemy = sprites.Enemy1("assets/images/aliens/enemy.png", center_x=random.randint(
+            enemy = sprites.Enemy1("assets/images/aliens/enemyGreen.png", scale=0.5, center_x=random.randint(
                 0, 525), center_y=random.randint(350, 525))
             enemy_x_change = list(range(-5, 5))
             enemy_x_change.remove(0)
@@ -52,23 +44,20 @@ class Level3(arcade.View):
         """
         All the logic to move, and the game logic goes here.
                 """
-        self.total_seconds += delta_time
-        a = int(self.total_seconds)
-        if a > self.enemy_bullets_shooted:
+        seconds = self.total_time.total_seconds()
+        if seconds > self.enemy_bullets_shooted:
             enemy = random.choice(self.enemy_list)
             enemy_bullet = sprites.EnemyBullet("assets/images/lasers/Red.png",
                                                center_x=enemy.center_x,
                                                center_y=enemy.center_y, angle=180)
-            self.enemy_bullet_list.append(enemy_bullet)
+            self.enemy_bullets.append(enemy_bullet)
             self.enemy_bullets_shooted += 1
 
-        self.player.update()
-        self.enemy_bullet_list.update()
-        if self.player.collides_with_list(self.enemy_bullet_list):
+        if self.player.collides_with_list(self.enemy_bullets):
             self.player.kill()
             self.window.views["GameOver"].setup()
             self.window.show_view(self.window.views["GameOver"])
-        for i in self.bullet_list:
+        for i in self.bullets:
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
@@ -90,30 +79,20 @@ class Level3(arcade.View):
             if self.window.levels_completed < self.window.current_level:
                 self.window.levels_completed = 1
             self.window.show_view(self.window.views["LevelUp"])
-        self.enemy_list.update()
-        self.bullet_list.update()
         for i in self.enemy_list:
             i.change_y = 0
+        super().on_update(delta_time)
 
     def on_draw(self):
         """Render the screen
         """
         self.clear()
-        arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                                            self.background)
-        self.player.draw()
-        self.enemy_list.draw()
-        self.bullet_list.draw()
-        self.enemy_bullet_list.draw()
+        super().on_draw()
 
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
-        if symbol == arcade.key.P:
-            self.window.show_view(self.window.views["Pause"])
-        if symbol == arcade.key.R:
-            self.setup()
+        super().on_key_press(symbol, modifiers)
         if symbol == arcade.key.LEFT:
             self.player.change_x = -10
         if symbol == arcade.key.RIGHT:
@@ -123,8 +102,8 @@ class Level3(arcade.View):
                                     center_x=self.player.center_x,
                                     center_y=self.player.center_y+self.player.height,
                                     hit_box_algorithm="Detailed")
-            if not bullet.collides_with_list(self.bullet_list):
-                self.bullet_list.append(bullet)
+            if not bullet.collides_with_list(self.bullets):
+                self.bullets.append(bullet)
                 if self.window.play_sound:
                     arcade.Sound("assets/sounds/laser.wav").play(volume=0.5)
 

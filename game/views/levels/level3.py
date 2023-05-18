@@ -16,7 +16,7 @@ class Level3(Level):
         super().__init__()
         self.background = arcade.load_texture(pathlib.Path(
             "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-        self.no_of_enemies = 20
+        self.no_of_enemies = 10
 
     def setup(self):
         """ Set up the game variables. Call to re-start the game. """

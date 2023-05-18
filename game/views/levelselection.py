@@ -18,7 +18,7 @@ class LevelSelection(arcade.View):
             self.window.show_view(self.window.views["Menu"])
 
         self.buttons = [LevelButton(
-            text=str(i+1)) for i in range(self.window.total_levels)]
+            text=str(i+1), style=styles.dark_texture_button) for i in range(self.window.total_levels)]
         self.levels = arcade.gui.UIBoxLayout(
             x=10, y=400, vertical=False, space_between=20, children=self.buttons)
 
@@ -35,7 +35,8 @@ class LevelSelection(arcade.View):
         text = int(button.text)
         self.window.current_level = text
         game_level = self.window.levels[text - 1]
-        if self.window.current_level <= (self.window.levels_completed+1):
+        # if self.window.current_level <= (self.window.levels_completed+1):
+        if True:
             game_level.setup()
             self.window.show_view(game_level)
 

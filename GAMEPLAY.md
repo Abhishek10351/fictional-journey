@@ -23,4 +23,4 @@ The main menu of the game:
 
 The gameplay:
 
-![Gameplay](showcases/gameplay.png)
+![Gameplay](showcases/gameplay.png?raw=true)

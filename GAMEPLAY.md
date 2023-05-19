@@ -19,7 +19,7 @@ Hit escape to return to the game after pausing.
 
 The main menu of the game:
 
-![Main Menu](/showcases/main_menu.png)
+![Main Menu](/showcases/main_menu.png?raw=true)
 
 The gameplay:
 

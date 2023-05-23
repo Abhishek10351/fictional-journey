@@ -54,4 +54,5 @@ class Level(arcade.View):
         self.window.show_view(self.window.views["GameOver"])
     
     def level_complete(self):
+        self.window.views["LevelUp"].setup()
         self.window.show_view(self.window.views["LevelUp"])

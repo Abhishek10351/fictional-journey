@@ -47,9 +47,7 @@ class Level1(Level):
                 i.kill()
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
-                view = self.window.views["GameOver"]
-                view.setup()
-                self.window.show_view(view)
+                self.game_over()
             if i.left < 0 or i.right > SCREEN_WIDTH:
                 i.change_x *= -1  # change enemy direction
                 i.change_y = -10
@@ -60,7 +58,7 @@ class Level1(Level):
             if self.window.levels_completed < self.window.current_level:
                 self.window.levels_completed = 2
             self.window.completed = True
-            self.window.show_view(self.window.views["LevelUp"])
+            self.level_complete()
         for i in self.enemy_list:
             i.change_y = 0
 

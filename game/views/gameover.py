@@ -22,12 +22,12 @@ class GameOverView(arcade.View):
     @property
     def message(self):
         return (f"You have lost level {self.window.current_level}."
-                "\nClick to continue.")
+        "Click to continue.")
 
     @property
     def text(self):
-        return arcade.gui.widgets.text.UITextArea(
-            text=self.message, font_name="Kenney Future", width=450, height=200, font_size=24, bold=True, color=arcade.color.WHITE)
+        return arcade.gui.UILabel(
+            text=self.message, font_name="Kenney Future", width=450, height=200, font_size=24, bold=True, text_color=arcade.color.WHITE, multiline=True)
 
     def on_draw(self):
         self.clear()

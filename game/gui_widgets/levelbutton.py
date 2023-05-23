@@ -12,10 +12,10 @@ class LevelButton(arcade.gui.UITextureButton):
                          texture_hovered=arcade.load_texture(
                              "assets/gui/textures/blue_button01.png"),
                          texture_pressed=arcade.load_texture(
-                             "assets/gui/textures/blue_button03.png"), **kwargs)
+                             "assets/gui/textures/blue_button03.png"), style=styles.styled_texture_button,**kwargs)
 
     def do_render(self, surface):
         super().do_render(surface)
         if self.is_disabled:
             arcade.draw_rectangle_filled(
-                0, 0, self.width*2, self.height*2, (204, 204, 204))
+                0, 0, self.width*2, self.height*2,(204, 204, 204, 100))

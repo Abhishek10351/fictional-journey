@@ -19,6 +19,6 @@ styled_texture_button = {
     ),
     "disabled": UIStyle(
         font_name="Kenney Future",
-        font_color=color.WHITE
+        font_color=color.GRAY
     )
 }

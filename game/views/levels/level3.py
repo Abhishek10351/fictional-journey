@@ -74,8 +74,6 @@ class Level3(Level):
                 i.right = min(i.right, SCREEN_WIDTH)
 
         if len(self.enemy_list) == 0:
-            if self.window.levels_completed < self.window.current_level:
-                self.window.levels_completed = 1
             self.level_complete()
         for i in self.enemy_list:
             i.change_y = 0

@@ -28,12 +28,17 @@ class LevelSelection(arcade.View):
         self.manager.add(self.levels)
         self.manager.enable()
 
+    def is_playable(self, level):
+        return level <= (self.window.levels_completed+1)
+
     def on_click(self, event):
         button = event.source
         level = int(button.text)
-        self.window.current_level = level
-        game_level = self.window.levels[level - 1]
-        if self.window.current_level <= (self.window.levels_completed+1):
+
+        if self.is_playable(level):
+
+            self.window.current_level = level
+            game_level = self.window.levels[level - 1]
             game_level.setup()
             self.window.show_view(game_level)
 

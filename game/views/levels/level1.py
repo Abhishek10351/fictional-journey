@@ -43,7 +43,7 @@ class Level1(Level):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
                     arcade.Sound("assets/sounds/hit.wav").play(volume=0.2)
-                    self.score += 1
+                    self.score += 10
                 i.kill()
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
@@ -55,9 +55,6 @@ class Level1(Level):
                 i.right = min(i.right, SCREEN_WIDTH)
 
         if len(self.enemy_list) == 0:
-            if self.window.levels_completed < self.window.current_level:
-                self.window.levels_completed = 2
-            self.window.completed = True
             self.level_complete()
         for i in self.enemy_list:
             i.change_y = 0

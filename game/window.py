@@ -1,6 +1,7 @@
 import arcade
 import pyglet.media
 from datetime import timedelta
+from views import levels
 
 
 class Window(arcade.Window):
@@ -10,7 +11,9 @@ class Window(arcade.Window):
         """
         super().__init__(width, height, title)
         self.total_time = timedelta(seconds=0.0)
-        self.total_levels = 0
+
+        self.total_levels = len([i
+                                 for i in dir(levels) if i.startswith("Level")])
         self.levels_completed = 0  # the last level completed
         self.current_level = 1  # the level currently played
         self.bg_music = pyglet.media.Player()

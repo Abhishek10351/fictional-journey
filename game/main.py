@@ -23,7 +23,6 @@ if __name__ == "__main__":
 
     window.levels = [getattr(views.levels, i)()
                      for i in dir(views.levels) if i.startswith("Level")]
-    window.total_levels = len(window.levels)
 
     window.show_view(window.views["Menu"])
     arcade.set_background_color(arcade.color.SKY_BLUE)

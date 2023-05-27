@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     window.views = {"Menu": views.Menu(), "LevelSelect": views.LevelSelection(), "LevelUp": views.LevelUpView(),
                     "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(),
-                    "Settings": views.SettingsView(), "Pause": views.PauseScreen()
+                    "Settings": views.SettingsView(), "Pause": views.PauseScreen(), "Trophies": views.Trophies()
                     }
 
     window.levels = [getattr(views.levels, i)()

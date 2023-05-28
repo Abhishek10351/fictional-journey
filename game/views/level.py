@@ -7,13 +7,17 @@ from constants import *
 class Level(arcade.View):
     """ Base class for all levels """
 
+    score = arcade.gui.Property(0)
+
     def __init__(self):
         super().__init__()
 
         self.total_time = timedelta(minutes=0, seconds=0, microseconds=0)
         self.background = arcade.load_texture(pathlib.Path(
             "assets/images/background.jpg"))
+
         self.score = 0
+        arcade.gui.bind(self, "score", self.update_score)
         self.player = None
         self.bullets = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
@@ -73,3 +77,12 @@ class Level(arcade.View):
 
     def on_hide_view(self):
         self.manager.disable()
+
+    def update_score(self):
+        if self.score < 0:
+            self.score = 0
+            self.game_over()
+        self.manager.remove(child=self.score_label)
+        self.score_label.text = f"{self.score:0>5}"
+        self.score_label.fit_content()
+        self.manager.add(self.score_label)

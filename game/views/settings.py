@@ -28,11 +28,12 @@ class SettingsView(arcade.View):
             vertical=False, space_between=40)
 
         self.label = arcade.gui.UILabel(text="Settings", font_size=30)
-        slider = UITextureSlider(value=50, width=300, height=50)
+        self.slider = UITextureSlider(value=self.window.volume, width=300, height=50)
+        self.slider.on_change=self.on_slide
 
         self.sound_control.add(self.music_button)
         self.sound_control.add(self.sound_button)
-        self.settings_screen.add(slider)
+        self.settings_screen.add(self.slider)
 
         self.ui_anchor_layout = arcade.gui.UIAnchorLayout()
         self.ui_anchor_layout.add(
@@ -48,6 +49,11 @@ class SettingsView(arcade.View):
         @back_button.event("on_click")
         def on_back(event):
             self.window.show_view(self.window.views["Menu"])
+    
+    def on_slide(self, event):
+        volume = self.slider.value
+        self.window.bg_music_player.volume = volume
+        execute("UPDATE settings SET volume = ?;", volume)
 
     def on_update(self, delta_time):
         time = self.window.game_level_time
@@ -70,11 +76,11 @@ class SettingsView(arcade.View):
             self.window.bg_music_player.play()
         else:
             self.window.bg_music_player.pause()
-        execute("UPDATE settings SET music = ?;", int(self.music_button.value))
+        execute("UPDATE settings SET music = ?;", self.music_button.value)
     
     def set_sound(self):
         self.sound_button.value = not self.sound_button.value
-        execute("UPDATE settings SET sound = ?;", int(self.sound_button.value))
+        execute("UPDATE settings SET sound = ?;",self.sound_button.value)
     
     def set_volume(self):
         execute("UPDATE settings SET volume = ?;", (self.volume.value))

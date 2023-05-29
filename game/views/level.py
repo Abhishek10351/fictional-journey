@@ -2,6 +2,7 @@ import arcade
 from datetime import timedelta
 import pathlib
 from constants import *
+from sprites import Powerup
 
 
 class Level(arcade.View):
@@ -22,6 +23,7 @@ class Level(arcade.View):
         self.bullets = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
+        self.powerups = arcade.SpriteList()
         self.manager = arcade.gui.UIManager()
 
     def setup(self):
@@ -35,6 +37,7 @@ class Level(arcade.View):
         self.manager.add(self.score_label)
         self.bullets.clear()
         self.enemy_bullets.clear()
+        self.powerups.clear()
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
@@ -59,6 +62,7 @@ class Level(arcade.View):
         self.bullets.draw()
         self.enemy_list.draw()
         self.enemy_bullets.draw()
+        self.powerups.draw()
         self.manager.draw()
 
     def game_over(self):
@@ -68,6 +72,8 @@ class Level(arcade.View):
     def level_complete(self):
         if (self.window.current_level > self.window.levels_completed):
             self.window.levels_completed += 1
+
+        # self.set_high_score()
 
         self.window.views["LevelUp"].setup()
         self.window.show_view(self.window.views["LevelUp"])
@@ -86,3 +92,6 @@ class Level(arcade.View):
         self.score_label.text = f"{self.score:0>5}"
         self.score_label.fit_content()
         self.manager.add(self.score_label)
+
+    def add_powerup(self, powerup, x, y):
+        self.powerup.add(Powerup(powerup, center_x=x, center_y=y))

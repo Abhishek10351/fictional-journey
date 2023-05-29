@@ -1,5 +1,9 @@
 import sqlite3
-connector = sqlite3.connect("game_data/db.sqlite3")
+from pathlib import Path
+
+
+db_path = Path(__file__) / "db.sqlite3"
+connector = sqlite3.connect(db_path)
 cursor = connector.cursor()
 
 
@@ -10,6 +14,14 @@ def default():
         schemas = schemas.split("\n\n")
     for schema in schemas:
         cursor.execute(schema)
+        connector.commit()
+    add_settings()
+
+
+def add_settings():
+    cursor.execute("SELECT * FROM settings;")
+    if not cursor.fetchone():
+        cursor.execute("INSERT INTO settings VALUES (?, ?, ?);", (1, 1, 50))
         connector.commit()
 
 

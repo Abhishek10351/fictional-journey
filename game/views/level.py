@@ -97,7 +97,7 @@ class Level(arcade.View):
     def add_powerup(self, powerup, x, y):
         self.powerups.append(sprites.Powerup(powerup, center_x=x, center_y=y))
 
-    def create_enemies(self, enemy_instance, enemy_path, no_of_enemies=self.no_of_enemies):
+    def create_enemies(self, enemy_instance, enemy_path, no_of_enemies):
         total = 0
         while total < no_of_enemies:
             enemy = enemy_instance(enemy_path, center_x=random.randint(

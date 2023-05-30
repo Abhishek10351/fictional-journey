@@ -94,4 +94,4 @@ class Level(arcade.View):
         self.manager.add(self.score_label)
 
     def add_powerup(self, powerup, x, y):
-        self.powerup.add(Powerup(powerup, center_x=x, center_y=y))
+        self.powerups.add(Powerup(powerup, center_x=x, center_y=y))

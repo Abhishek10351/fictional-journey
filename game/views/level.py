@@ -1,8 +1,9 @@
-import arcade
 from datetime import timedelta
+import random
 import pathlib
 from constants import *
-from sprites import Powerup
+import arcade
+import sprites
 
 
 class Level(arcade.View):
@@ -94,4 +95,16 @@ class Level(arcade.View):
         self.manager.add(self.score_label)
 
     def add_powerup(self, powerup, x, y):
-        self.powerups.add(Powerup(powerup, center_x=x, center_y=y))
+        self.powerups.append(sprites.Powerup(powerup, center_x=x, center_y=y))
+
+    def create_enemies(self, enemy_instance, enemy_path, no_of_enemies=self.no_of_enemies):
+        total = 0
+        while total < no_of_enemies:
+            enemy = enemy_instance(enemy_path, center_x=random.randint(
+                0, 525), center_y=random.randint(350, 525))
+            enemy_x_change = list(range(-5, 5))
+            enemy_x_change.remove(0)
+            enemy.change_x = random.choice(enemy_x_change)
+            if not enemy.collides_with_list(self.enemy_list) or enemy.left > 0:
+                total += 1
+                self.enemy_list.append(enemy)

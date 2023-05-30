@@ -29,16 +29,8 @@ class Level3(Level):
             center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_bullets_shooted = 0
-        total = 0
-        while total < self.no_of_enemies:
-            enemy = sprites.Enemy1("assets/images/aliens/enemyGreen.png", scale=0.5, center_x=random.randint(
-                0, 525), center_y=random.randint(350, 525))
-            enemy_x_change = list(range(-5, 5))
-            enemy_x_change.remove(0)
-            enemy.change_x = random.choice(enemy_x_change)
-            if not enemy.collides_with_list(self.enemy_list) or enemy.left > 0:
-                total += 1
-                self.enemy_list.append(enemy)
+        self.create_enemies(
+            sprites.Enemy1, "assets/images/aliens/enemyGreen.png", self.no_of_enemies)
 
     def on_update(self, delta_time):
         """

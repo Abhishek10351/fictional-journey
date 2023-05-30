@@ -9,5 +9,5 @@ from .levels import *
 from .trophies import Trophies
 
 
-__all__ = ['Menu', 'HowToPlay', 'LevelSelection',
-           'GameOverView', 'LevelUpView', 'SettingsView', 'PauseScreen', 'Trophies']
+__all__ = ['Menu', 'HowToPlay', 'LevelSelection', 'GameOverView',
+           'LevelUpView', 'SettingsView', 'PauseScreen', 'Trophies']

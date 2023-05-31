@@ -30,7 +30,7 @@ class Level3(Level):
 
         self.enemy_bullets_shooted = 0
         self.create_enemies(
-            sprites.Enemy1, "assets/images/aliens/enemyGreen.png", self.no_of_enemies)
+            sprites.Enemy1, "assets/images/aliens/enemyGreen.png", self.no_of_enemies, 0.5)
 
     def on_update(self, delta_time):
         """

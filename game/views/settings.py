@@ -12,14 +12,14 @@ class SettingsView(arcade.View):
 
         back_button = BackButton()
 
-        self.music_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/musicOn.png"), off_texture=arcade.load_texture(
-            "assets/gui/musicOff.png"), width=50, height=50, value=self.window.bg_music_player.playing)
+        self.music_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/icons/musicOn.png"), off_texture=arcade.load_texture(
+            "assets/gui/icons/musicOff.png"), width=50, height=50, value=self.window.bg_music_player.playing)
         self.music_button.on_click = self.set_music
         self.music_button.with_background(texture=arcade.load_texture(
             "assets/gui/textures/blue_button03.png"))
 
-        self.sound_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/soundOn.png"), off_texture=arcade.load_texture(
-            "assets/gui/soundOff.png"), width=50, height=50, value=True)
+        self.sound_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/icons/soundOn.png"), off_texture=arcade.load_texture(
+            "assets/gui/icons/soundOff.png"), width=50, height=50, value=True)
         self.sound_button.with_background(texture=arcade.load_texture(
             "assets/gui/textures/blue_button03.png"))
 

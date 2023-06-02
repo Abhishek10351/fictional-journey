@@ -10,6 +10,7 @@ class Level(arcade.View):
     """ Base class for all levels """
 
     score = arcade.gui.Property(0)
+    shield = arcade.gui.Property(0)
 
     def __init__(self):
         super().__init__()
@@ -20,6 +21,9 @@ class Level(arcade.View):
 
         self.score = 0
         arcade.gui.bind(self, "score", self.update_score)
+        self.shield = 0
+        arcade.gui.bind(self, "shield", self.update_shield)
+
         self.player = None
         self.bullets = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
@@ -34,6 +38,9 @@ class Level(arcade.View):
         self.score = 0
         self.score_label = arcade.gui.UILabel(
             text=f"{self.score:0>5}", x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-80, font_name="Kenney Future", font_size=20)
+        self.shield = 0
+        self.shield_image = arcade.gui.UIImage(arcade.load_texture(
+            "assets/powerups/shields/shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
 
         self.manager.add(self.score_label)
         self.bullets.clear()
@@ -46,6 +53,7 @@ class Level(arcade.View):
         self.bullets.update()
         self.enemy_list.update()
         self.enemy_bullets.update()
+        self.powerups.update()
 
     def on_key_press(self, symbol, modifiers):
         """Called whenever a key is pressed. """
@@ -108,3 +116,26 @@ class Level(arcade.View):
             if not enemy.collides_with_list(self.enemy_list) or enemy.left > 0:
                 total += 1
                 self.enemy_list.append(enemy)
+
+    # def use_powerup(self, powerup):
+
+    #     if powerup == "shield":
+    #         self.shield = 1
+    #     elif powerup == "double":
+    #         self.shield = 2
+    #     elif powerup == "triple":
+    #         self.shield = 3
+
+    def update_shield(self):
+        self.manager.remove(self.shield_image)
+        if self.shield == 1:
+            self.shield_image.texture = arcade.load_texture(
+                "assets/powerups/shields/shield_bronze.png")
+        elif self.shield == 2:
+            self.shield_image.texture = arcade.load_texture(
+                "assets/powerups/shields/shield_silver.png")
+        elif self.shield == 3:
+            self.shield_image.texture = arcade.load_texture(
+                "assets/powerups/shields/shield_gold.png")
+        if self.shield > 0:
+            self.manager.add(self.shield_image)

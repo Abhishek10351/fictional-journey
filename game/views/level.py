@@ -159,6 +159,5 @@ class Level(arcade.View):
             if not self.shield:
                 self.shield -= 1
             else:
-                bullet.kill()
                 self.player.kill()
                 self.game_over()

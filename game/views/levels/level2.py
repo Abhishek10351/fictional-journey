@@ -70,8 +70,7 @@ class Level2(Level):
             colour = random.choice(('Red', 'Blue'))
             bullet = sprites.Bullet(f"assets/images/lasers/{colour}.png",
                                     center_x=self.player.center_x,
-                                    center_y=self.player.center_y+self.player.height,
-                                    hit_box_algorithm="Detailed")
+                                    center_y=self.player.center_y+self.player.height)
             if not bullet.collides_with_list(self.bullets):
                 self.bullets.append(bullet)
                 arcade.Sound("assets/sounds/laser.wav").play(volume=0.2)

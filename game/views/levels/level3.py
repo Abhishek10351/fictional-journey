@@ -14,8 +14,6 @@ class Level3(Level):
         """Initialize the window
         """
         super().__init__()
-        self.background = arcade.load_texture(pathlib.Path(
-            "assets/images/background.jpg"), width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
         self.no_of_enemies = 10
 
     def setup(self):
@@ -23,9 +21,7 @@ class Level3(Level):
         self.clear()
         super().setup()
 
-        self.player = sprites.Player(
-            arcade.load_texture(pathlib.Path("assets/images/players/player_blue.png"),
-                                hit_box_algorithm=algo_detailed()),
+        self.player = sprites.Player("assets/images/players/player_blue.png",
             center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_bullets_shooted = 0
@@ -88,8 +84,7 @@ class Level3(Level):
         if symbol == arcade.key.SPACE:
             bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
                                     center_x=self.player.center_x,
-                                    center_y=self.player.center_y+self.player.height,
-                                    hit_box_algorithm="Detailed")
+                                    center_y=self.player.center_y+self.player.height)
             if not bullet.collides_with_list(self.bullets):
                 self.bullets.append(bullet)
                 if self.window.play_sound:

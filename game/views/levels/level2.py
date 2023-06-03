@@ -40,11 +40,6 @@ class Level2(Level):
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()
-            if i.left < 0 or i.right > SCREEN_WIDTH:
-                i.change_x *= -1  # change enemy direction
-                i.change_y = -10
-                i.left = max(0, i.left)
-                i.right = min(i.right, SCREEN_WIDTH)
 
         if len(self.enemy_list) == 0:
             self.level_complete()
@@ -52,11 +47,6 @@ class Level2(Level):
             i.change_y = 0
 
         super().on_update(delta_time)
-
-    def on_draw(self):
-        """Render the screen
-        """
-        super().on_draw()
 
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed

@@ -31,11 +31,15 @@ class Level(arcade.View):
         self.bullets = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
+        self.streak = 0
         self.powerups = arcade.SpriteList()
         self.manager = arcade.gui.UIManager()
         self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
         self.powerups_rarity_weights = {
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
+        self.creative_level_names = [
+            "TimeBomb", "BulletHell", "Bouncy", "Speedy", "Slow", "Invisible", "Shielded", "Bigger", "Smaller", "Random"
+        ]
 
     def setup(self):
         self.clear()
@@ -50,6 +54,7 @@ class Level(arcade.View):
 
         self.manager.add(self.score_label)
         self.bullets.clear()
+        self.enemy_list.clear()
         self.enemy_bullets.clear()
         self.powerups.clear()
 
@@ -147,3 +152,13 @@ class Level(arcade.View):
             if powerup.collides_with_sprite(self.player):
                 powerup.use(self)
                 powerup.kill()
+
+    def check_player_collision(self):
+
+        if self.player.collides_with_list(self.enemy_bullets):
+            if not self.shield:
+                self.shield -= 1
+            else:
+                bullet.kill()
+                self.player.kill()
+                self.game_over()

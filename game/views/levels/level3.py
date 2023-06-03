@@ -22,7 +22,7 @@ class Level3(Level):
         super().setup()
 
         self.player = sprites.Player("assets/images/players/player_blue.png",
-            center_x=SCREEN_WIDTH/2, center_y=50)
+                                     center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_bullets_shooted = 0
         self.create_enemies(
@@ -35,15 +35,14 @@ class Level3(Level):
         seconds = self.total_time.total_seconds()
         if seconds > self.enemy_bullets_shooted:
             enemy = random.choice(self.enemy_list)
-            enemy_bullet = sprites.EnemyBullet("assets/images/lasers/Red.png",
-                                               center_x=enemy.center_x,
-                                               center_y=enemy.bottom, angle=180)
+            enemy_bullet = sprites.EnemyBullet(
+                "assets/images/lasers/Red.png",
+                center_x=enemy.center_x,
+                center_y=enemy.bottom, angle=180)
             self.enemy_bullets.append(enemy_bullet)
             self.enemy_bullets_shooted += 1
 
-        if self.player.collides_with_list(self.enemy_bullets):
-            self.player.kill()
-            self.game_over()
+        self.check_player_collision()
         for i in self.bullets:
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
@@ -55,11 +54,6 @@ class Level3(Level):
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()
-            if i.left < 0 or i.right > SCREEN_WIDTH:
-                i.change_x *= -1  # change enemy direction
-                i.change_y = -10
-                i.left = max(0, i.left)
-                i.right = min(i.right, SCREEN_WIDTH)
 
         if len(self.enemy_list) == 0:
             self.level_complete()

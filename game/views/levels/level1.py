@@ -23,7 +23,7 @@ class Level1(Level):
         self.player = sprites.Player(
             "assets/images/players/player_blue.png", center_x=SCREEN_WIDTH/2, center_y=50)
         self.create_enemies(
-            sprites.Enemy1, "assets/images/aliens/enemy.png", 10)
+            sprites.Enemy1, "assets/images/aliens/enemy.png", self.no_of_enemies)
 
     def on_update(self, delta_time):
         """
@@ -35,28 +35,16 @@ class Level1(Level):
                     j.kill()
                     arcade.Sound(
                         "assets/sounds/hit.wav").play(volume=self.window.volume)
-                    self.score += 10
+                    self.score += 100
                 i.kill()
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()
-            if i.left < 0 or i.right > SCREEN_WIDTH:
-                i.change_x *= -1  # change enemy direction
-                i.change_y = -10
-                i.left = max(0, i.left)
-                i.right = min(i.right, SCREEN_WIDTH)
 
         if len(self.enemy_list) == 0:
             self.level_complete()
-        for i in self.enemy_list:
-            i.change_y = 0
 
         super().on_update(delta_time)
-
-    def on_draw(self):
-        """Render the screen
-        """
-        super().on_draw()
 
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed

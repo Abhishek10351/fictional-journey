@@ -6,6 +6,7 @@ from arcade.hitbox import algo_detailed
 from constants import SCREEN_WIDTH
 from game_data import fetch
 from pathlib import Path
+from functools import partial
 
 
 class Player(arcade.Sprite):
@@ -78,5 +79,11 @@ class Powerup(arcade.Sprite):
         if shield_id < 4 and shield_id:
             if view.shield < shield_id:
                 view.shield = shield_id
+                arcade.schedule_once(
+                    partial(self.reset_shield, view=view), self.duration)
         else:
             view.shield = 0
+
+    def reset_shield(self, delta_time: float, view):
+        view.shield = 0
+        arcade.unschedule(self.reset_shield)

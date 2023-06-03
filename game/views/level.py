@@ -4,6 +4,7 @@ import pathlib
 from constants import *
 import arcade
 import sprites
+from game_data import fetchall
 
 
 class Level(arcade.View):
@@ -23,6 +24,8 @@ class Level(arcade.View):
         arcade.gui.bind(self, "score", self.update_score)
         self.shield = 0
         arcade.gui.bind(self, "shield", self.update_shield)
+        self.shield_colors = [arcade.color.BRONZE,
+                              arcade.color.SILVER, arcade.color.GOLD]
 
         self.player = None
         self.bullets = arcade.SpriteList()
@@ -30,6 +33,9 @@ class Level(arcade.View):
         self.enemy_bullets = arcade.SpriteList()
         self.powerups = arcade.SpriteList()
         self.manager = arcade.gui.UIManager()
+        self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
+        self.powerups_rarity_weights = {
+            "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
 
     def setup(self):
         self.clear()
@@ -49,6 +55,7 @@ class Level(arcade.View):
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
+        self.check_powerup_collision()
         self.player.update()
         self.bullets.update()
         self.enemy_list.update()
@@ -68,6 +75,8 @@ class Level(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
         self.player.draw()
+        if self.shield > 0:
+            self.player.draw_hit_box(self.shield_colors[self.shield-1], 2)
         self.bullets.draw()
         self.enemy_list.draw()
         self.enemy_bullets.draw()
@@ -117,16 +126,9 @@ class Level(arcade.View):
                 total += 1
                 self.enemy_list.append(enemy)
 
-    # def use_powerup(self, powerup):
-
-    #     if powerup == "shield":
-    #         self.shield = 1
-    #     elif powerup == "double":
-    #         self.shield = 2
-    #     elif powerup == "triple":
-    #         self.shield = 3
-
     def update_shield(self):
+        self.shield = max(0, self.shield)
+        self.shield = min(3, self.shield)
         self.manager.remove(self.shield_image)
         if self.shield == 1:
             self.shield_image.texture = arcade.load_texture(
@@ -139,3 +141,9 @@ class Level(arcade.View):
                 "assets/powerups/shields/shield_gold.png")
         if self.shield > 0:
             self.manager.add(self.shield_image)
+
+    def check_powerup_collision(self):
+        for powerup in self.powerups:
+            if powerup.collides_with_sprite(self.player):
+                powerup.use(self)
+                powerup.kill()

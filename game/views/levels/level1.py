@@ -57,13 +57,7 @@ class Level1(Level):
         if symbol == arcade.key.RIGHT:
             self.player.change_x = +10
         if symbol == arcade.key.SPACE:
-            colour = random.choice(('Red', 'Blue'))
-            bullet = sprites.Bullet(f"assets/images/lasers/{colour}.png",
-                                    center_x=self.player.center_x,
-                                    center_y=self.player.center_y+self.player.height)
-            if not bullet.collides_with_list(self.bullets):
-                self.bullets.append(bullet)
-                arcade.Sound("assets/sounds/laser.wav").play(volume=0.2)
+            self.shoot_bullet()
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

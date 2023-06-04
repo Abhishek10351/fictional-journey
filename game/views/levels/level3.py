@@ -49,7 +49,7 @@ class Level3(Level):
                     j.kill()
                     if self.window.play_sound:
                         arcade.Sound("assets/sounds/hit.wav").play(volume=0.20)
-                    self.score += 1
+                    self.score += 100
                 i.kill()
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
@@ -61,12 +61,6 @@ class Level3(Level):
             i.change_y = 0
         super().on_update(delta_time)
 
-    def on_draw(self):
-        """Render the screen
-        """
-        self.clear()
-        super().on_draw()
-
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed
         """
@@ -76,13 +70,7 @@ class Level3(Level):
         if symbol == arcade.key.RIGHT:
             self.player.change_x = +10
         if symbol == arcade.key.SPACE:
-            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
-                                    center_x=self.player.center_x,
-                                    center_y=self.player.center_y+self.player.height)
-            if not bullet.collides_with_list(self.bullets):
-                self.bullets.append(bullet)
-                if self.window.play_sound:
-                    arcade.Sound("assets/sounds/laser.wav").play(volume=0.5)
+            self.shoot_bullet()
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

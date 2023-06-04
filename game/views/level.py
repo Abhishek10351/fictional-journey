@@ -22,6 +22,9 @@ class Level(arcade.View):
 
         self.score = 0
         arcade.gui.bind(self, "score", self.update_score)
+
+        self.score_label = arcade.gui.UILabel(
+            text=f"{self.score:0>5}", x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-80, font_name="Kenney Future", font_size=20)
         self.shield = 0
         arcade.gui.bind(self, "shield", self.update_shield)
         self.shield_colors = [arcade.color.BRONZE,
@@ -31,12 +34,14 @@ class Level(arcade.View):
         self.bullets = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
+        self.double_bullets = False
         self.streak = 0
         self.powerups = arcade.SpriteList()
         self.manager = arcade.gui.UIManager()
         self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
         self.powerups_rarity_weights = {
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
+        self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
         self.creative_level_names = [
             "TimeBomb", "BulletHell", "Bouncy", "Speedy", "Slow", "Invisible", "Shielded", "Bigger", "Smaller", "Random"
         ]
@@ -46,8 +51,6 @@ class Level(arcade.View):
         self.total_time = timedelta(seconds=0)
         self.manager.clear()
         self.score = 0
-        self.score_label = arcade.gui.UILabel(
-            text=f"{self.score:0>5}", x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-80, font_name="Kenney Future", font_size=20)
         self.shield = 0
         self.shield_image = arcade.gui.UIImage(arcade.load_texture(
             "assets/powerups/shields/shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
@@ -111,7 +114,7 @@ class Level(arcade.View):
         if self.score < 0:
             self.score = 0
             self.game_over()
-        self.manager.remove(child=self.score_label)
+        self.manager.remove(self.score_label)
         self.score_label.text = f"{self.score:0>5}"
         self.score_label.fit_content()
         self.manager.add(self.score_label)
@@ -161,3 +164,26 @@ class Level(arcade.View):
                 self.game_over()
             else:
                 self.shield -= 1
+
+    def shoot_bullet(self):
+        if self.double_bullets:
+
+            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
+                                    center_x=self.player.left_laser[0],
+                                    center_y=self.player.left_laser[1])
+            if not bullet.collides_with_list(self.bullets):
+                self.bullets.append(bullet)
+
+            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
+                                    center_x=self.player.right_laser[0],
+                                    center_y=self.player.right_laser[1])
+            if not bullet.collides_with_list(self.bullets):
+                self.bullets.append(bullet)
+            self.laser_sound.play()
+        else:
+            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
+                                    center_x=self.player.center_laser[0],
+                                    center_y=self.player.center_laser[1])
+            if not bullet.collides_with_list(self.bullets):
+                self.bullets.append(bullet)
+                self.laser_sound.play()

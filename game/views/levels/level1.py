@@ -29,7 +29,7 @@ class Level1(Level):
         """
         All the logic to move, and the game logic goes here.
                 """
-        for i in self.bullets:
+        for i in self.lasers:
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
@@ -57,7 +57,7 @@ class Level1(Level):
         if symbol == arcade.key.RIGHT:
             self.player.change_x = +10
         if symbol == arcade.key.SPACE:
-            self.shoot_bullet()
+            self.shoot_laser()
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

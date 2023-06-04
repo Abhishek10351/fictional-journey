@@ -24,7 +24,7 @@ class Level3(Level):
         self.player = sprites.Player("assets/images/players/player_blue.png",
                                      center_x=SCREEN_WIDTH/2, center_y=50)
 
-        self.enemy_bullets_shooted = 0
+        self.enemy_lasers_shooted = 0
         self.create_enemies(
             sprites.Enemy1, "assets/images/aliens/enemyGreen.png", self.no_of_enemies, 0.5)
 
@@ -33,17 +33,17 @@ class Level3(Level):
         All the logic to move, and the game logic goes here.
                 """
         seconds = self.total_time.total_seconds()
-        if seconds > self.enemy_bullets_shooted:
+        if seconds > self.enemy_lasers_shooted:
             enemy = random.choice(self.enemy_list)
-            enemy_bullet = sprites.EnemyBullet(
+            enemy_laser = sprites.EnemyLaser(
                 "assets/images/lasers/Red.png",
                 center_x=enemy.center_x,
                 center_y=enemy.bottom, angle=180)
-            self.enemy_bullets.append(enemy_bullet)
-            self.enemy_bullets_shooted += 1
+            self.enemy_lasers.append(enemy_laser)
+            self.enemy_lasers_shooted += 1
 
         self.check_player_collision()
-        for i in self.bullets:
+        for i in self.lasers:
             if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     j.kill()
@@ -70,7 +70,7 @@ class Level3(Level):
         if symbol == arcade.key.RIGHT:
             self.player.change_x = +10
         if symbol == arcade.key.SPACE:
-            self.shoot_bullet()
+            self.shoot_laser()
 
     def on_key_release(self, symbol, modifiers):
         """Called whenever a key is released

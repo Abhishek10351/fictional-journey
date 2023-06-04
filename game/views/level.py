@@ -31,10 +31,10 @@ class Level(arcade.View):
                               arcade.color.SILVER, arcade.color.GOLD]
 
         self.player = None
-        self.bullets = arcade.SpriteList()
+        self.lasers = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
-        self.enemy_bullets = arcade.SpriteList()
-        self.double_bullets = False
+        self.enemy_lasers = arcade.SpriteList()
+        self.double_lasers = False
         self.streak = 0
         self.powerups = arcade.SpriteList()
         self.manager = arcade.gui.UIManager()
@@ -43,7 +43,7 @@ class Level(arcade.View):
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
         self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
         self.creative_level_names = [
-            "TimeBomb", "BulletHell", "Bouncy", "Speedy", "Slow", "Invisible", "Shielded", "Bigger", "Smaller", "Random"
+            "TimeBomb", "LaserHell", "Bouncy", "Speedy", "Slow", "Invisible", "Shielded", "Bigger", "Smaller", "Random"
         ]
 
     def setup(self):
@@ -56,18 +56,18 @@ class Level(arcade.View):
             "assets/powerups/shields/shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
 
         self.manager.add(self.score_label)
-        self.bullets.clear()
+        self.lasers.clear()
         self.enemy_list.clear()
-        self.enemy_bullets.clear()
+        self.enemy_lasers.clear()
         self.powerups.clear()
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
         self.check_powerup_collision()
         self.player.update()
-        self.bullets.update()
+        self.lasers.update()
         self.enemy_list.update()
-        self.enemy_bullets.update()
+        self.enemy_lasers.update()
         self.powerups.update()
 
     def on_key_press(self, symbol, modifiers):
@@ -85,9 +85,9 @@ class Level(arcade.View):
         self.player.draw()
         if self.shield > 0:
             self.player.draw_hit_box(self.shield_colors[self.shield-1], 2)
-        self.bullets.draw()
+        self.lasers.draw()
         self.enemy_list.draw()
-        self.enemy_bullets.draw()
+        self.enemy_lasers.draw()
         self.powerups.draw()
         self.manager.draw()
 
@@ -158,32 +158,32 @@ class Level(arcade.View):
 
     def check_player_collision(self):
 
-        if self.player.collides_with_list(self.enemy_bullets):
+        if self.player.collides_with_list(self.enemy_lasers):
             if not self.shield:
                 self.player.kill()
                 self.game_over()
             else:
                 self.shield -= 1
 
-    def shoot_bullet(self):
-        if self.double_bullets:
+    def shoot_laser(self):
+        if self.double_lasers:
 
-            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
-                                    center_x=self.player.left_laser[0],
-                                    center_y=self.player.left_laser[1])
-            if not bullet.collides_with_list(self.bullets):
-                self.bullets.append(bullet)
+            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+                                  center_x=self.player.left_laser[0],
+                                  center_y=self.player.left_laser[1])
+            if not laser.collides_with_list(self.lasers):
+                self.lasers.append(laser)
 
-            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
-                                    center_x=self.player.right_laser[0],
-                                    center_y=self.player.right_laser[1])
-            if not bullet.collides_with_list(self.bullets):
-                self.bullets.append(bullet)
+            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+                                  center_x=self.player.right_laser[0],
+                                  center_y=self.player.right_laser[1])
+            if not laser.collides_with_list(self.lasers):
+                self.lasers.append(laser)
             self.laser_sound.play()
         else:
-            bullet = sprites.Bullet(f"assets/images/lasers/Blue.png",
-                                    center_x=self.player.center_laser[0],
-                                    center_y=self.player.center_laser[1])
-            if not bullet.collides_with_list(self.bullets):
-                self.bullets.append(bullet)
+            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+                                  center_x=self.player.center_laser[0],
+                                  center_y=self.player.center_laser[1])
+            if not laser.collides_with_list(self.lasers):
+                self.lasers.append(laser)
                 self.laser_sound.play()

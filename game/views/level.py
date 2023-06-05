@@ -42,9 +42,6 @@ class Level(arcade.View):
         self.powerups_rarity_weights = {
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
         self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
-        self.creative_level_names = [
-            "TimeBomb", "LaserHell", "Bouncy", "Speedy", "Slow", "Invisible", "Shielded", "Bigger", "Smaller", "Random"
-        ]
 
     def setup(self):
         self.clear()
@@ -187,3 +184,20 @@ class Level(arcade.View):
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
                 self.laser_sound.play()
+
+    def check_enemy_hit(self):
+        for i in self.lasers:
+
+            if i.top >= SCREEN_HEIGHT:
+                self.streak = 0
+                self.lasers.remove(i)
+            elif i.collides_with_list(self.enemy_list):
+                for j in i.collides_with_list(self.enemy_list):
+                    self.enemy_list.remove(j)
+                    arcade.Sound(
+                        "assets/sounds/hit.wav").play(volume=self.window.volume)
+                    self.streak += 1
+                    if self.streak > 1:
+                        self.score += 100 * self.streak
+                    self.score += 100
+                self.lasers.remove(i)

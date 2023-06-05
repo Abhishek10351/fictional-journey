@@ -29,14 +29,9 @@ class Level1(Level):
         """
         All the logic to move, and the game logic goes here.
                 """
-        for i in self.lasers:
-            if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
-                for j in i.collides_with_list(self.enemy_list):
-                    j.kill()
-                    arcade.Sound(
-                        "assets/sounds/hit.wav").play(volume=self.window.volume)
-                    self.score += 100
-                i.kill()
+
+        self.check_enemy_hit()
+        
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()

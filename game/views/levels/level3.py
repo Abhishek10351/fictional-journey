@@ -43,14 +43,7 @@ class Level3(Level):
             self.enemy_lasers_shooted += 1
 
         self.check_player_collision()
-        for i in self.lasers:
-            if i.top >= SCREEN_HEIGHT or i.collides_with_list(self.enemy_list):
-                for j in i.collides_with_list(self.enemy_list):
-                    j.kill()
-                    if self.window.play_sound:
-                        arcade.Sound("assets/sounds/hit.wav").play(volume=0.20)
-                    self.score += 100
-                i.kill()
+        self.check_enemy_hit()
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()

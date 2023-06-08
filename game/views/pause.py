@@ -12,7 +12,7 @@ class PauseScreen(arcade.View):
 
         @back_button.event
         def on_click(event):
-            self.window.show_view(self.window.views["Menu"])
+            self.window.show_view(self.window.views["LevelSelect"])
 
         message = "You have paused the game. \nYou can resume the game by pressing the ESC key. \n"
         self.text = arcade.gui.widgets.text.UITextArea(

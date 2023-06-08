@@ -19,6 +19,7 @@ class Window(arcade.Window):
         self.current_level = 1  # the level currently played
         self.bg_music = arcade.load_sound("assets/music/funkyrobot.mp3")
         self.bg_music_player = self.bg_music.play(volume=1)
+        # self.bg_music_player.pause()
         self.completed = False
         self.game_level_time = timedelta(seconds=0.0)
 
@@ -27,7 +28,7 @@ class Window(arcade.Window):
         self.game_level_time += timedelta(seconds=delta_time)
 
     @property
-    def play_sound(self):
+    def sound(self):
         return fetch("SELECT sound FROM settings;")[0]
 
     @property

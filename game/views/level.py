@@ -12,6 +12,7 @@ class Level(arcade.View):
 
     score = arcade.gui.Property(0)
     shield = arcade.gui.Property(0)
+    lives = arcade.gui.Property(3)
 
     def __init__(self):
         super().__init__()
@@ -37,6 +38,16 @@ class Level(arcade.View):
         self.double_lasers = False
         self.streak = 0
         self.powerups = arcade.SpriteList()
+        self.lives = 3
+        arcade.gui.bind(self, "lives", self.update_lives)
+        self.lives_layout = arcade.gui.UIBoxLayout(
+            y=SCREEN_HEIGHT-40, vertical=False, space_between=10)
+        self.lives_layout.add(arcade.gui.UIImage(arcade.load_texture(
+            "assets/heart/heart.png"), width=30, height=30))
+        self.lives_layout.add(arcade.gui.UIImage(arcade.load_texture(
+            "assets/heart/numeralX.png"), width=20, height=20))
+        self.lives_layout.add(arcade.gui.UILabel(
+            text="3", font_size=20, font_name="Kenney Mini Square"))
         self.manager = arcade.gui.UIManager()
         self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
         self.powerups_rarity_weights = {
@@ -46,7 +57,10 @@ class Level(arcade.View):
     def setup(self):
         self.clear()
         self.total_time = timedelta(seconds=0)
+        self.lives = 3
         self.manager.clear()
+
+        self.manager.add(self.lives_layout)
         self.score = 0
         self.shield = 0
         self.shield_image = arcade.gui.UIImage(arcade.load_texture(
@@ -157,6 +171,7 @@ class Level(arcade.View):
 
         if self.player.collides_with_list(self.enemy_lasers):
             if not self.shield:
+                # self.lives -= 1
                 self.player.kill()
                 self.game_over()
             else:
@@ -176,14 +191,16 @@ class Level(arcade.View):
                                   center_y=self.player.right_laser[1])
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
-            self.laser_sound.play()
         else:
             laser = sprites.Laser(f"assets/images/lasers/Blue.png",
                                   center_x=self.player.center_laser[0],
                                   center_y=self.player.center_laser[1])
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
-                self.laser_sound.play()
+
+        if self.window.sound:
+            arcade.Sound(
+                "assets/sounds/laser.wav").play(volume=self.window.volume)
 
     def check_enemy_hit(self):
         for i in self.lasers:
@@ -194,10 +211,25 @@ class Level(arcade.View):
             elif i.collides_with_list(self.enemy_list):
                 for j in i.collides_with_list(self.enemy_list):
                     self.enemy_list.remove(j)
-                    arcade.Sound(
-                        "assets/sounds/hit.wav").play(volume=self.window.volume)
+                    if self.window.sound:
+                        arcade.Sound(
+                            "assets/sounds/hit.wav").play(volume=self.window.volume)
                     self.streak += 1
                     if self.streak > 1:
                         self.score += 100 * self.streak
                     self.score += 100
                 self.lasers.remove(i)
+
+    def update_lives(self):
+        if self.lives == 0:
+            self.game_over()
+        self.manager.remove(self.lives_layout)
+        self.lives_layout.clear()
+
+        self.lives_layout.add(arcade.gui.UIImage(arcade.load_texture(
+            "assets/heart/heart.png"), width=30, height=30))
+        self.lives_layout.add(arcade.gui.UIImage(arcade.load_texture(
+            "assets/heart/numeralX.png"), width=20, height=20))
+        self.lives_layout.add(arcade.gui.UILabel(
+            text=str(self.lives), font_size=20, font_name="Kenney Future"))
+        self.manager.add(self.lives_layout)

@@ -36,7 +36,7 @@ class Level3(Level):
         if seconds > self.enemy_lasers_shooted:
             enemy = random.choice(self.enemy_list)
             enemy_laser = sprites.EnemyLaser(
-                "assets/images/lasers/Red.png",
+                "Red.png",
                 center_x=enemy.center_x,
                 center_y=enemy.bottom, angle=180)
             self.enemy_lasers.append(enemy_laser)

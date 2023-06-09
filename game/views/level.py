@@ -180,19 +180,19 @@ class Level(arcade.View):
     def shoot_laser(self):
         if self.double_lasers:
 
-            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+            laser = sprites.Laser("Blue.png",
                                   center_x=self.player.left_laser[0],
                                   center_y=self.player.left_laser[1])
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
 
-            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+            laser = sprites.Laser("Blue.png",
                                   center_x=self.player.right_laser[0],
                                   center_y=self.player.right_laser[1])
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
         else:
-            laser = sprites.Laser(f"assets/images/lasers/Blue.png",
+            laser = sprites.Laser("Blue.png",
                                   center_x=self.player.center_laser[0],
                                   center_y=self.player.center_laser[1])
             if not laser.collides_with_list(self.lasers):

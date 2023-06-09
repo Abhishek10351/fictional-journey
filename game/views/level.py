@@ -53,6 +53,8 @@ class Level(arcade.View):
         self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
         self.powerups_rarity_weights = {
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
+        self.powerups_rarity = {
+            i[0]: self.powerups_rarity_weights[i[1]] for i in self.powerups_rarity}
         self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
 
     def setup(self):
@@ -169,15 +171,16 @@ class Level(arcade.View):
                 powerup.use(self)
                 powerup.kill()
 
-    def check_player_collision(self):
+    def check_player_hit(self):
 
-        if self.player.collides_with_list(self.enemy_lasers):
-            if not self.shield:
-                # self.lives -= 1
-                self.player.kill()
-                self.game_over()
-            else:
-                self.shield -= 1
+        for laser in self.enemy_lasers:
+            if laser.collides_with_sprite(self.player):
+                laser.kill()
+
+                if not self.shield:
+                    self.lives -= 1
+                else:
+                    self.shield -= 1
 
     def shoot_laser(self):
         if self.double_lasers:
@@ -204,7 +207,7 @@ class Level(arcade.View):
             arcade.Sound(
                 "assets/sounds/laser.wav").play(volume=self.window.volume)
 
-    def check_enemy_hit(self):
+    def check_enemy_hit(self, powerups=[]):
         for i in self.lasers:
 
             if i.top >= SCREEN_HEIGHT:
@@ -216,6 +219,14 @@ class Level(arcade.View):
                     if self.window.sound:
                         arcade.Sound(
                             "assets/sounds/hit.wav").play(volume=self.window.volume)
+                    if "shield" in powerups:
+                        if random.randint(1, 5) == 1:
+                            powerups = list(self.powerups_rarity.keys())
+                            rarities = list(self.powerups_rarity.values())
+                            selected_powerup = random.choices(
+                                powerups, rarities, k=1)
+                            self.add_powerup(
+                                selected_powerup[0], j.center_x, j.center_y)
                     self.streak += 1
                     if self.streak > 1:
                         self.score += 100 * self.streak

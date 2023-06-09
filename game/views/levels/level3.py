@@ -33,6 +33,7 @@ class Level3(Level):
         All the logic to move, and the game logic goes here.
                 """
         seconds = self.total_time.total_seconds()
+
         if seconds > self.enemy_lasers_shooted:
             enemy = random.choice(self.enemy_list)
             enemy_laser = sprites.EnemyLaser(
@@ -42,8 +43,8 @@ class Level3(Level):
             self.enemy_lasers.append(enemy_laser)
             self.enemy_lasers_shooted += 1
 
-        self.check_player_collision()
-        self.check_enemy_hit()
+        self.check_player_hit()
+        self.check_enemy_hit(powerups=["shield"])
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()

@@ -24,7 +24,7 @@ class Level2(Level):
             "player_blue.png",
             center_x=SCREEN_WIDTH/2, center_y=50)
         self.create_enemies(
-            sprites.Enemy1, "assets/images/aliens/enemy.png", 20)
+            sprites.Enemy1, "enemy.png", 20)
 
     def on_update(self, delta_time):
         """

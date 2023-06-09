@@ -8,13 +8,14 @@ from constants import *
 import views
 from window import Window
 import pyglet.image
+from constants import IMAGES_PATH
 
 if __name__ == "__main__":
 
     window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-    window.set_icon(pyglet.image.load(
-        Path('assets/images/aliens/enemy.png')))
+    window.set_icon(pyglet.image.load(IMAGES_PATH /
+                                      "characters"/"aliens"/"enemy.png"))
 
     window.views = {"Menu": views.Menu(), "LevelSelect": views.LevelSelection(), "LevelUp": views.LevelUpView(),
                     "GameOver": views.GameOverView(), "HowToPlay": views.HowToPlay(),

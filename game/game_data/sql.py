@@ -24,8 +24,7 @@ def default():
 
 def add_settings():
     if not fetch("SELECT * FROM settings;"):
-        cursor.execute("INSERT INTO settings VALUES (?, ?, ?);", (1, 1, 50))
-        connector.commit()
+        execute("INSERT INTO settings VALUES (?, ?, ?);", (1, 1, 50))
 
 
 def add_powerups():
@@ -34,16 +33,14 @@ def add_powerups():
 
     for powerup in powerups:
         if not fetch("SELECT * FROM powerups WHERE id = ?", powerup["id"]):
-            cursor.execute('''INSERT INTO powerups
+            execute('''INSERT INTO powerups
                             VALUES (?, ?, ?, ?, ?, ?)''',
-                           (powerup["id"], powerup["name"], powerup["description"],
-                            powerup["duration"], powerup["rarity"], powerup["asset_path"]))
-
-    connector.commit()
+                    (powerup["id"], powerup["name"], powerup["description"],
+                     powerup["duration"], powerup["rarity"], powerup["asset_path"]))
 
 
 def execute(query, *parameters):
-    cursor.execute(query, parameters)
+    cursor.execute(query, *parameters)
     connector.commit()
 
 

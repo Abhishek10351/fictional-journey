@@ -2,6 +2,8 @@ from game_data import fetch
 from pathlib import Path
 from functools import partial
 import arcade
+from constants import ASSETS_PATH
+
 
 class Powerup(arcade.Sprite):
 
@@ -13,7 +15,7 @@ class Powerup(arcade.Sprite):
         self.description = powerup_object[2]
         self.duration = powerup_object[3]
         self.rarity = powerup_object[4]
-        self.image = Path(__file__).parent / powerup_object[5]
+        self.image = ASSETS_PATH / "images" / "powerups" / powerup_object[5]
 
         super().__init__(
             path_or_texture=self.image, **kwargs)

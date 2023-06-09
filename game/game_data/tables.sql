@@ -3,14 +3,14 @@ CREATE TABLE IF NOT EXISTS trophies (
   trophy_name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   image_url VARCHAR(255) NOT NULL,
-  earned INTEGER NOT NULL CHECK (earned IN (0, 1)),
-  earned_date TEXT DEFAULT CURRENT_DATE
+  unlocked INTEGER CHECK (unlocked IN (0, 1)) DEFAULT 0,
+  earned_date TEXT
 );
 
 CREATE TABLE IF NOT EXISTS settings (
-  sound INTEGER NOT NULL CHECK (sound IN (0, 1)),
-  music INTEGER NOT NULL CHECK (music IN (0, 1)),
-  volume INTEGER NOT NULL CHECK (volume >= 0 AND volume <= 100)
+  sound INTEGER NOT NULL CHECK (sound IN (0, 1)) DEFAULT 1,
+  music INTEGER NOT NULL CHECK (music IN (0, 1)) DEFAULT 1,
+  volume INTEGER NOT NULL CHECK (volume >= 0 AND volume <= 100) DEFAULT 75
 );
 
 CREATE TABLE IF NOT EXISTS levels (

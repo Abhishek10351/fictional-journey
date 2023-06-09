@@ -27,6 +27,7 @@ class Level(arcade.View):
         self.score_label = arcade.gui.UILabel(
             text=f"{self.score:0>5}", x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-80, font_name="Kenney Future", font_size=20)
         self.shield = 0
+        self.shield_path = ASSETS_PATH / "images" / "powerups" / "shields"
         arcade.gui.bind(self, "shield", self.update_shield)
         self.shield_colors = [arcade.color.BRONZE,
                               arcade.color.SILVER, arcade.color.GOLD]
@@ -64,7 +65,7 @@ class Level(arcade.View):
         self.score = 0
         self.shield = 0
         self.shield_image = arcade.gui.UIImage(arcade.load_texture(
-            "assets/powerups/shields/shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
+            self.shield_path / "shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
 
         self.manager.add(self.score_label)
         self.lasers.clear()
@@ -146,18 +147,19 @@ class Level(arcade.View):
                 self.enemy_list.append(enemy)
 
     def update_shield(self):
+
         self.shield = max(0, self.shield)
         self.shield = min(3, self.shield)
         self.manager.remove(self.shield_image)
         if self.shield == 1:
             self.shield_image.texture = arcade.load_texture(
-                "assets/powerups/shields/shield_bronze.png")
+                self.shield_path/"shield_bronze.png")
         elif self.shield == 2:
             self.shield_image.texture = arcade.load_texture(
-                "assets/powerups/shields/shield_silver.png")
+                self.shield_path/"shield_silver.png")
         elif self.shield == 3:
             self.shield_image.texture = arcade.load_texture(
-                "assets/powerups/shields/shield_gold.png")
+                self.shield_path/"shield_gold.png")
         if self.shield > 0:
             self.manager.add(self.shield_image)
 

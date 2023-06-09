@@ -1,7 +1,7 @@
 from pathlib import Path
 import arcade
 from arcade.hitbox import algo_detailed
-from constants import SCREEN_WIDTH
+from constants import SCREEN_WIDTH, ASSETS_PATH
 
 class Player(arcade.Sprite):
 
@@ -10,9 +10,9 @@ class Player(arcade.Sprite):
     """
 
     def __init__(self, filename, scale=1, **kwargs):
-        file_paths = Path(__file__).parent / "assets" / "images" / "players"
+        file_path = ASSETS_PATH / "images" / "players" / filename
         super().__init__(arcade.load_texture(
-            filename, hit_box_algorithm=algo_detailed), scale, **kwargs)
+            file_path, hit_box_algorithm=algo_detailed), scale, **kwargs)
 
     @property
     def center_laser(self):

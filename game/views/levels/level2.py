@@ -21,7 +21,7 @@ class Level2(Level):
         super().setup()
 
         self.player = sprites.Player(
-            "assets/images/players/player_blue.png",
+            "player_blue.png",
             center_x=SCREEN_WIDTH/2, center_y=50)
         self.create_enemies(
             sprites.Enemy1, "assets/images/aliens/enemy.png", 20)

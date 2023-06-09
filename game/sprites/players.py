@@ -3,6 +3,10 @@ import arcade
 from arcade.hitbox import algo_detailed
 from constants import SCREEN_WIDTH, ASSETS_PATH
 
+
+base_file_path = ASSETS_PATH / "images" / "characters" / "players"
+
+
 class Player(arcade.Sprite):
 
     """
@@ -10,7 +14,7 @@ class Player(arcade.Sprite):
     """
 
     def __init__(self, filename, scale=1, **kwargs):
-        file_path = ASSETS_PATH / "images" / "players" / filename
+        file_path = base_file_path / filename
         super().__init__(arcade.load_texture(
             file_path, hit_box_algorithm=algo_detailed), scale, **kwargs)
 

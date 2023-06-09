@@ -6,7 +6,7 @@
             "description": "Adds a shield protection from an enemy",
             "duration": 10,
             "rarity": "Common",
-            "asset_path": "assets/powerups/shields/powerupBlue_shield.png"
+            "asset_path": "shields/powerupBlue_shield.png"
         },
         {
             "id": "sh_02",
@@ -14,7 +14,7 @@
             "description": "Adds double shield protection from an enemy",
             "duration": 10,
             "rarity": "Uncommon",
-            "asset_path": "assets/powerups/shields/powerupGreen_shield.png"
+            "asset_path": "shields/powerupGreen_shield.png"
         },
         {
             "id": "sh_03",
@@ -22,15 +22,15 @@
             "description": "Adds triple shield protection from an enemy",
             "duration": 10,
             "rarity": "Rare",
-            "asset_path": "assets/powerups/shields/powerupYellow_shield.png"
+            "asset_path": "shields/powerupYellow_shield.png"
         },
         {
             "id": "sh_04",
             "name": "Shield",
             "description": "Removes shield protection",
             "duration": 0,
-            "rarity": "Uncommon",
-            "asset_path": "assets/powerups/shields/powerupRed_shield.png"
+            "rarity": "Rare",
+            "asset_path": "shields/powerupRed_shield.png"
         }
     ]
 }

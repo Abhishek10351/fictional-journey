@@ -5,7 +5,6 @@ UIStyle = UITextureButton.UIStyle
 
 styled_texture_button = {
     "normal": UIStyle(
-        font_size=12,
         font_name="Kenney Future",
         font_color=color.WHITE
     ),
@@ -15,7 +14,7 @@ styled_texture_button = {
     ),
     "press": UIStyle(
         font_name="Kenney Future",
-        font_color=(21, 19, 21)
+        font_color = color.COOL_BLACK
     ),
     "disabled": UIStyle(
         font_name="Kenney Future",

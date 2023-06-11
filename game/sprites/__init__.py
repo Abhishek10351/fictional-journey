@@ -5,5 +5,5 @@ from .powerups import Powerup
 from .lasers import *
 
 __all__ = [
-    "Player", "Laser", "Laser2", "EnemyLaser", "Enemy1", "Powerup"
+    "Player", "Player2" "Laser", "Laser2", "EnemyLaser", "Enemy1", "Powerup"
 ]

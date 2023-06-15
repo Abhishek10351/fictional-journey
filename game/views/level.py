@@ -185,21 +185,25 @@ class Level(arcade.View):
     def shoot_laser(self):
         if self.double_lasers:
 
-            laser = sprites.Laser("Blue.png",
-                                  center_x=self.player.left_laser[0],
-                                  center_y=self.player.left_laser[1])
+            laser = sprites.Laser(
+                "Blue.png",
+                center_x=self.player.left_laser[0],
+                center_y=self.player.left_laser[1], angle=self.player.angle)
+
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
 
-            laser = sprites.Laser("Blue.png",
-                                  center_x=self.player.right_laser[0],
-                                  center_y=self.player.right_laser[1])
+            laser = sprites.Laser(
+                "Blue.png",
+                center_x=self.player.right_laser[0],
+                center_y=self.player.right_laser[1], angle=self.player.angle)
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
         else:
-            laser = sprites.Laser("Blue.png",
-                                  center_x=self.player.center_laser[0],
-                                  center_y=self.player.center_laser[1])
+            laser = sprites.Laser(
+                "Blue.png",
+                center_x=self.player.center_laser[0],
+                center_y=self.player.center_laser[1], angle=self.player.angle)
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
 
@@ -219,7 +223,7 @@ class Level(arcade.View):
                     if self.window.sound:
                         arcade.Sound(
                             "assets/sounds/hit.wav").play(volume=self.window.volume)
-                    if "shield" in powerups:
+                    if "shield" in powerups and ("Shield" not in [i.name for i in self.powerups]):
                         if random.randint(1, 5) == 1:
                             powerups = list(self.powerups_rarity.keys())
                             rarities = list(self.powerups_rarity.values())

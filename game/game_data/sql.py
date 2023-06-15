@@ -35,12 +35,12 @@ def add_powerups():
         if not fetch("SELECT * FROM powerups WHERE id = ?", powerup["id"]):
             execute('''INSERT INTO powerups
                             VALUES (?, ?, ?, ?, ?, ?)''',
-                    (powerup["id"], powerup["name"], powerup["description"],
-                     powerup["duration"], powerup["rarity"], powerup["asset_path"]))
+                    powerup["id"], powerup["name"], powerup["description"],
+                    powerup["duration"], powerup["rarity"], powerup["asset_path"])
 
 
 def execute(query, *parameters):
-    cursor.execute(query, *parameters)
+    cursor.execute(query, parameters)
     connector.commit()
 
 

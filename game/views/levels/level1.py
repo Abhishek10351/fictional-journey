@@ -20,7 +20,7 @@ class Level1(Level):
         self.clear()
         super().setup()
 
-        self.player = sprites.Player(
+        self.player = sprites.Player1(
             "player_blue.png", center_x=SCREEN_WIDTH/2, center_y=50)
         self.create_enemies(
             sprites.Enemy1, "enemy.png", self.no_of_enemies)

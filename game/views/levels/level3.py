@@ -21,7 +21,7 @@ class Level3(Level):
         self.clear()
         super().setup()
 
-        self.player = sprites.Player("player_blue.png",
+        self.player = sprites.Player1("player_blue.png",
                                      center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_lasers_shooted = 0

@@ -20,7 +20,7 @@ class BasePlayer(arcade.Sprite):
             file_path, hit_box_algorithm=algo_detailed), scale, **kwargs)
 
 
-class Player(BasePlayer):
+class Player1(BasePlayer):
 
     """
     Sprite for controlling the player

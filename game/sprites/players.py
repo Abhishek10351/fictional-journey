@@ -8,16 +8,26 @@ import math
 base_file_path = IMAGES_PATH / "characters" / "players"
 
 
-class Player(arcade.Sprite):
+class BasePlayer(arcade.Sprite):
 
     """
-    Sprite for controlling the player
+    Base class for player sprites
     """
 
     def __init__(self, filename, scale=1, **kwargs):
         file_path = base_file_path / filename
         super().__init__(arcade.load_texture(
             file_path, hit_box_algorithm=algo_detailed), scale, **kwargs)
+
+
+class Player(BasePlayer):
+
+    """
+    Sprite for controlling the player
+    """
+
+    def __init__(self, filename, scale=1, **kwargs):
+        super().__init__(filename, scale, **kwargs)
 
     @property
     def center_laser(self):
@@ -37,30 +47,29 @@ class Player(arcade.Sprite):
         self.right = min(self.right, SCREEN_WIDTH)
 
 
-class Player2(arcade.Sprite):
+class Player2(BasePlayer):
 
     """
     Player sprite that can rotate
     """
 
     def __init__(self, filename, scale=1, **kwargs):
-        file_path = base_file_path / filename
-        super().__init__(arcade.load_texture(
-            file_path, hit_box_algorithm=algo_detailed), scale, **kwargs)
-
-        self.laser_points = [self.left+5, self.right-5]
+        super().__init__(filename, scale, **kwargs)
+        self.center_laser_points = (self.center_x, self.top+15)
+        self.right_laser_points = (self.left+5, self.center_y+20)
+        self.left_laser_points = (self.right-5, self.center_y+20)
 
     @property
     def center_laser(self):
-        x = self.center_x + self.height * math.cos(math.radians(self.angle))
-        y = self.center_y + self.height * math.sin(math.radians(self.angle))
+        x, y = arcade.math.rotate_point(
+            *self.center_laser_points, self.center_x, self.center_y,  self.angle)
         return (x, y)
 
     @property
     def right_laser(self):
 
         x, y = arcade.math.rotate_point(
-            self.laser_points[1], self.center_y+20, self.center_x, self.center_y,  self.angle)
+            *self.right_laser_points, self.center_x, self.center_y,  self.angle)
 
         return (x, y)
 
@@ -68,7 +77,7 @@ class Player2(arcade.Sprite):
     def left_laser(self):
 
         x, y = arcade.math.rotate_point(
-            self.laser_points[0], self.center_y+20, self.center_x, self.center_y,  self.angle)
+            *self.left_laser_points, self.center_x, self.center_y,  self.angle)
 
         return (x, y)
 

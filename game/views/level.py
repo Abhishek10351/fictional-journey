@@ -33,6 +33,7 @@ class Level(arcade.View):
                               arcade.color.SILVER, arcade.color.GOLD]
 
         self.player = None
+        self.safety_screens = arcade.SpriteList(True)
         self.lasers = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.enemy_lasers = arcade.SpriteList()
@@ -54,7 +55,8 @@ class Level(arcade.View):
         self.powerups_rarity_weights = {
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
         self.powerups_rarity = {
-            i[0]: self.powerups_rarity_weights[i[1]] for i in self.powerups_rarity}
+            i[0]: self.powerups_rarity_weights[i[1]]
+             for i in self.powerups_rarity}
         self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
 
     def setup(self):
@@ -67,9 +69,11 @@ class Level(arcade.View):
         self.score = 0
         self.shield = 0
         self.shield_image = arcade.gui.UIImage(arcade.load_texture(
-            self.shield_path / "shield_gold.png"), x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
+            self.shield_path / "shield_gold.png"), 
+            x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
 
         self.manager.add(self.score_label)
+        self.safety_screens.clear()
         self.lasers.clear()
         self.enemy_list.clear()
         self.enemy_lasers.clear()
@@ -181,6 +185,41 @@ class Level(arcade.View):
                     self.lives -= 1
                 else:
                     self.shield -= 1
+
+    def make_safety_screens(self, x_start):
+        safety_screen_block_width = 5
+        safety_screen_block_height = 10
+        safety_screen_width_count = 20
+        safety_screen_height_count = 5
+        y_start = 150
+        for x in range(x_start,
+                       x_start + safety_screen_width_count * safety_screen_block_width,
+                       safety_screen_block_width):
+            for y in range(y_start,
+                           y_start + safety_screen_height_count * safety_screen_block_height,
+                           safety_screen_block_height):
+                safety_screen_sprite = arcade.SpriteSolidColor(
+                    safety_screen_block_width,
+                    safety_screen_block_height, x, y,
+                    color=arcade.color.LIGHT_GRAY)
+
+                self.safety_screens.append(safety_screen_sprite)
+
+    def check_safety_screens(self):
+        for laser in self.lasers:
+
+            screens = arcade.check_for_collision_with_list(laser, self.safety_screens)
+            if screens:
+                laser.kill()
+                for screen in screens:
+                    screen.kill()
+        
+        for laser in self.enemy_lasers:
+            screens = arcade.check_for_collision_with_list(laser, self.safety_screens)
+            if screens:
+                laser.kill()
+                for screen in screens:
+                    screen.kill()
 
     def shoot_laser(self):
         if self.double_lasers:

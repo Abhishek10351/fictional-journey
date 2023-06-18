@@ -6,6 +6,7 @@ folder_path = Path(__file__).parent
 db_path = folder_path / "db.sqlite3"
 schema_path = folder_path / "tables.sql"
 powerups_path = folder_path / "powerups.json"
+levels_path = folder_path / "levels.json"
 connector = sqlite3.connect(db_path)
 cursor = connector.cursor()
 
@@ -20,11 +21,22 @@ def default():
         connector.commit()
     add_settings()
     add_powerups()
+    add_levels()
 
 
 def add_settings():
     if not fetch("SELECT * FROM settings;"):
-        execute("INSERT INTO settings VALUES (?, ?, ?);", (1, 1, 50))
+        execute("INSERT INTO settings VALUES (?, ?, ?);", 1, 1, 50)
+
+
+def add_levels():
+    with open(levels_path, 'r') as json_file:
+        levels = json.load(json_file)["levels"]
+
+    for level in levels:
+        if not fetch("SELECT * FROM levels WHERE level = ?", level["level"]):
+            execute('''INSERT INTO levels ( level, name, description, objective )
+                            VALUES (?, ?, ?, ?)''', level["level"], level["name"], level["description"], level["objective"])
 
 
 def add_powerups():

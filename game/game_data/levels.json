@@ -1,0 +1,28 @@
+{
+    "levels": [
+        {
+            "level": 1,
+            "name": "Cosmic Encounter",
+            "description": "Dive into the game with this easy and enjoyable level designed to introduce players to the gameplay mechanics and controls.",
+            "objective": "Defeat all of the aliens before they reach the bottom of the screen"
+        },
+        {
+            "level": 2,
+            "name": "Rookie Raid",
+            "description": "Engage in a beginner-friendly invasion scenario, where the number of enemy ships is limited, providing a gentler challenge for novice players",
+            "objective": "Defeat all of the aliens before they reach the bottom of the screen"
+        },
+        {
+            "level": 3,
+            "name": "Bullet Blitz",
+            "description": "The aliens have invaded Earth! The player must defend the planet from the alien invaders",
+            "objective": "Defeat all of the alien ships before they destroy the Ship"
+        },
+        {
+            "level": 4,
+            "name": "The Learning Curve",
+            "description": "Investigate and neutralize anomalies scattered across space, which pose a threat to your home planet",
+            "objective": "Defeat the enemy squadron while minimizing damage to the peaceful nebula"
+        }
+    ]
+}

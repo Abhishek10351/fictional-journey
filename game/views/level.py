@@ -4,7 +4,7 @@ import pathlib
 from constants import *
 import arcade
 import sprites
-from game_data import fetchall
+from game_data import fetchall, fetch, execute
 
 
 class Level(arcade.View):
@@ -56,7 +56,7 @@ class Level(arcade.View):
             "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
         self.powerups_rarity = {
             i[0]: self.powerups_rarity_weights[i[1]]
-             for i in self.powerups_rarity}
+            for i in self.powerups_rarity}
         self.laser_sound = arcade.load_sound("assets/sounds/laser.wav")
 
     def setup(self):
@@ -69,7 +69,7 @@ class Level(arcade.View):
         self.score = 0
         self.shield = 0
         self.shield_image = arcade.gui.UIImage(arcade.load_texture(
-            self.shield_path / "shield_gold.png"), 
+            self.shield_path / "shield_gold.png"),
             x=SCREEN_WIDTH-120, y=SCREEN_HEIGHT-40, width=30, height=30)
 
         self.manager.add(self.score_label)
@@ -78,6 +78,7 @@ class Level(arcade.View):
         self.enemy_list.clear()
         self.enemy_lasers.clear()
         self.powerups.clear()
+        self.current_highscore = 0
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
@@ -140,7 +141,8 @@ class Level(arcade.View):
     def add_powerup(self, powerup, x, y):
         self.powerups.append(sprites.Powerup(powerup, center_x=x, center_y=y))
 
-    def create_enemies(self, enemy_instance, enemy_path, no_of_enemies, scale=1):
+    def create_enemies(self, enemy_instance, enemy_path,
+                       no_of_enemies, scale=1):
         total = 0
         while total < no_of_enemies:
             enemy = enemy_instance(enemy_path, center_x=random.randint(
@@ -186,36 +188,38 @@ class Level(arcade.View):
                 else:
                     self.shield -= 1
 
-    def make_safety_screens(self, x_start):
-        safety_screen_block_width = 5
-        safety_screen_block_height = 10
-        safety_screen_width_count = 20
-        safety_screen_height_count = 5
+    def make_screens(self, x_start):
+        screen_block_width = 5
+        screen_block_height = 10
+        screen_width_count = 20
+        screen_height_count = 5
         y_start = 150
         for x in range(x_start,
-                       x_start + safety_screen_width_count * safety_screen_block_width,
-                       safety_screen_block_width):
+                       x_start +
+                       screen_width_count * screen_block_width,
+                       screen_block_width):
             for y in range(y_start,
-                           y_start + safety_screen_height_count * safety_screen_block_height,
-                           safety_screen_block_height):
-                safety_screen_sprite = arcade.SpriteSolidColor(
-                    safety_screen_block_width,
-                    safety_screen_block_height, x, y,
+                           y_start +
+                           screen_height_count * screen_block_height,
+                           screen_block_height):
+                screen_sprite = arcade.SpriteSolidColor(
+                    screen_block_width,
+                    screen_block_height, x, y,
                     color=arcade.color.LIGHT_GRAY)
 
-                self.safety_screens.append(safety_screen_sprite)
+                self.safety_screens.append(screen_sprite)
 
     def check_safety_screens(self):
         for laser in self.lasers:
-
-            screens = arcade.check_for_collision_with_list(laser, self.safety_screens)
+            screens = arcade.check_for_collision_with_list(
+                laser, self.safety_screens, 2)
             if screens:
                 laser.kill()
                 for screen in screens:
                     screen.kill()
-        
         for laser in self.enemy_lasers:
-            screens = arcade.check_for_collision_with_list(laser, self.safety_screens)
+            screens = arcade.check_for_collision_with_list(
+                laser, self.safety_screens, 2)
             if screens:
                 laser.kill()
                 for screen in screens:
@@ -261,7 +265,8 @@ class Level(arcade.View):
                     self.enemy_list.remove(j)
                     if self.window.sound:
                         arcade.Sound(
-                            "assets/sounds/hit.wav").play(volume=self.window.volume)
+                            "assets/sounds/hit.wav").play(
+                                volume=self.window.volume)
                     if "shield" in powerups and ("Shield" not in [i.name for i in self.powerups]):
                         if random.randint(1, 5) == 1:
                             powerups = list(self.powerups_rarity.keys())
@@ -289,3 +294,14 @@ class Level(arcade.View):
         self.lives_layout.add(arcade.gui.UILabel(
             text=str(self.lives), font_size=20, font_name="Kenney Future"))
         self.manager.add(self.lives_layout)
+
+    @property
+    def highscore(self):
+        return fetch("SELECT high_score FROM levels WHERE level= (?)",
+                     self.window.current_level)[0]
+
+    @highscore.setter
+    def highscore(self, new_highscore):
+        if new_highscore > self.highscore:
+            execute("UPDATE levels SET high_score = (?) WHERE level = (?)",
+                    new_highscore, self.window.current_level)

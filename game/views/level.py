@@ -4,7 +4,7 @@ import pathlib
 from constants import *
 import arcade
 import sprites
-from game_data import fetchall, fetch, execute
+from game_data import *
 
 
 class Level(arcade.View):
@@ -78,7 +78,6 @@ class Level(arcade.View):
         self.enemy_list.clear()
         self.enemy_lasers.clear()
         self.powerups.clear()
-        self.current_highscore = 0
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
@@ -117,9 +116,7 @@ class Level(arcade.View):
     def level_complete(self):
         if (self.window.current_level > self.window.levels_completed):
             self.window.levels_completed += 1
-
-        # self.set_high_score()
-
+            
         self.window.views["LevelUp"].setup()
         self.window.show_view(self.window.views["LevelUp"])
 

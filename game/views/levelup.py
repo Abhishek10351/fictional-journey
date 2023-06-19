@@ -9,19 +9,32 @@ class LevelUpView(arcade.View):
         super().__init__()
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
         self.manager = arcade.gui.UIManager()
+        self.anchor_layout = arcade.gui.widgets.layout.UIAnchorLayout(
+            anchor_x="center", anchor_y="center")
 
     def setup(self):
         self.manager.clear()
-        self.manager.add(self.text)
+        self.anchor_layout.clear()
+        self.anchor_layout.add(self.text)
+        self.manager.add(self.anchor_layout)
+
+    @property
+    def level(self):
+        return self.window.levels[self.window.current_level-1]
 
     @property
     def message(self):
-        return f"You have completed level {self.window.current_level}."
-        "Click to continue."""
+        return (f"Level {self.window.current_level} complete.\n"
+                f"Score: {self.level.score}\n"
+                f"High Score: {self.level.highscore}"
+                )
 
     @property
     def text(self):
-        return arcade.gui.UILabel(x=100, y=400, width=300, text=self.message, font_size=24, font_name="Kenney Future", multiline=True, align="center")
+        return arcade.gui.UILabel(width=400, text=self.message, font_size=20,
+                                  font_name="Kenney Future", multiline=True,
+                                  text_color=(239, 35, 60),
+                                  align="left")
 
     def on_draw(self):
         """ Draw this view """

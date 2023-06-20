@@ -114,8 +114,7 @@ class Level(arcade.View):
         self.window.show_view(self.window.views["GameOver"])
 
     def level_complete(self):
-        if (self.window.current_level > self.window.levels_completed):
-            self.window.levels_completed += 1
+        if fetch("SELECT completed FROM levels WHERE level = ?",self.window.current_level)[0] == 1:
             execute("UPDATE levels SET completed = ? WHERE level = ?",
                     1, self.window.current_level)
 
@@ -220,6 +219,7 @@ class Level(arcade.View):
                 laser, self.safety_screens, 2)
             if screens:
                 laser.kill()
+                self.streak = 0
                 for screen in screens:
                     screen.kill()
         for laser in self.enemy_lasers:

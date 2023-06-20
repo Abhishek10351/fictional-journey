@@ -7,6 +7,10 @@ db_path = folder_path / "db.sqlite3"
 schema_path = folder_path / "tables.sql"
 powerups_path = folder_path / "powerups.json"
 levels_path = folder_path / "levels.json"
+
+with open(db_path, "a") as db:
+    pass
+
 connector = sqlite3.connect(db_path)
 cursor = connector.cursor()
 
@@ -39,7 +43,7 @@ def add_levels():
             objective ) VALUES (?, ?, ?, ?)''',
                     level["level"], level["name"], level["description"],
                     level["objective"])
-        execute("UPDATE levels SET completed = 1 WHERE level = 1")
+    execute("UPDATE levels SET unlocked = (1) WHERE level = (1)")
 
 
 def add_powerups():

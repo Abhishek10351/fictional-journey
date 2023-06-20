@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 
 CREATE TABLE IF NOT EXISTS levels (
-  level INTEGER PRIMARY KEY CHECK (level <=1),
+  level INTEGER PRIMARY KEY CHECK (level >=1),
   name VARCHAR(255) NOT NULL,
   high_score INTEGER NOT NULL CHECK (high_score >= 0) DEFAULT 0,
   description TEXT NOT NULL,

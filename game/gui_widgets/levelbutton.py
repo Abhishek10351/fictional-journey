@@ -1,5 +1,6 @@
 import arcade
 import styles
+from game_data import fetch
 
 
 class LevelButton(arcade.gui.UITextureButton):
@@ -16,16 +17,18 @@ class LevelButton(arcade.gui.UITextureButton):
 
     def do_render(self, surface):
         self.prepare_render(surface)
+        unlocked = fetch(
+            "SELECT unlocked FROM levels WHERE level = ?", int(self.text))[0]
 
         style = self.get_current_style()
-        if not int(self.text) <= (self.window.levels_completed+1):
+        if not unlocked:
             style = self.style["disabled"]
 
         self.apply_style(style)
 
         current_state = self.get_current_state()
         current_texture = self._textures.get(current_state)
-        if int(self.text) <= (self.window.levels_completed+1):
+        if unlocked:
             surface.draw_texture(
                 0, 0, self.width, self.height, current_texture)
         else:

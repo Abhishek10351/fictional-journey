@@ -2,6 +2,7 @@ import arcade
 import arcade.gui
 from constants import *
 from gui_widgets import BackButton, LevelButton
+from game_data import fetch
 
 
 class LevelSelection(arcade.View):
@@ -29,14 +30,13 @@ class LevelSelection(arcade.View):
         self.manager.enable()
 
     def is_playable(self, level):
-        return level <= (self.window.levels_completed+1)
+        return fetch("SELECT unlocked FROM levels WHERE level = ?", level)[0]
 
     def on_click(self, event):
         button = event.source
         level = int(button.text)
 
         if self.is_playable(level):
-
             self.window.current_level = level
             game_level = self.window.levels[level - 1]
             game_level.setup()

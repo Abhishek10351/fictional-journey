@@ -116,7 +116,15 @@ class Level(arcade.View):
     def level_complete(self):
         if (self.window.current_level > self.window.levels_completed):
             self.window.levels_completed += 1
-            
+            execute("UPDATE levels SET completed = ? WHERE level = ?",
+                    1, self.window.current_level)
+
+            if self.window.total_levels > self.window.current_level:
+                execute("UPDATE levels SET unlocked = ? WHERE level = ?",
+                        1, self.window.current_level+1)
+
+        self.highscore = self.score
+
         self.window.views["LevelUp"].setup()
         self.window.show_view(self.window.views["LevelUp"])
 

@@ -35,8 +35,11 @@ def add_levels():
 
     for level in levels:
         if not fetch("SELECT * FROM levels WHERE level = ?", level["level"]):
-            execute('''INSERT INTO levels ( level, name, description, objective )
-                            VALUES (?, ?, ?, ?)''', level["level"], level["name"], level["description"], level["objective"])
+            execute('''INSERT INTO levels ( level, name, description, 
+            objective ) VALUES (?, ?, ?, ?)''',
+                    level["level"], level["name"], level["description"],
+                    level["objective"])
+        execute("UPDATE levels SET completed = 1 WHERE level = 1")
 
 
 def add_powerups():

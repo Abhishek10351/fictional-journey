@@ -1,12 +1,12 @@
 import arcade
 import styles
 from game_data import fetch
+from .buttons import TextureButton
 
 
-class LevelButton(arcade.gui.UITextureButton):
+class LevelButton(TextureButton):
 
     def __init__(self, text, **kwargs):
-        self.window = arcade.get_window()
         super().__init__(text=text, width=60, height=60,
                          texture=arcade.load_texture(
                              "assets/gui/textures/blue_button02.png"),

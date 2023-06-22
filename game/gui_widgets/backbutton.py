@@ -1,13 +1,12 @@
-"""Lmao
-"""
 import arcade
 import arcade.gui
 from constants import SCREEN_HEIGHT, GUI_PATH
+from .buttons import TextureButton
 
+icons_path = GUI_PATH / "icons"
 
-class BackButton(arcade.gui.UITextureButton):
+class BackButton(TextureButton):
     def __init__(self, **kwargs):
-        icons_path = GUI_PATH / "icons"
         super().__init__(
             texture=arcade.load_texture(
                 icons_path/'arrow-left.png'),

@@ -2,6 +2,9 @@ import arcade
 import styles
 from game_data import fetch
 from .buttons import TextureButton
+from constants import GUI_PATH
+
+button_dir = GUI_PATH / "textures"/"buttons"/"small"
 
 
 class LevelButton(TextureButton):
@@ -9,11 +12,11 @@ class LevelButton(TextureButton):
     def __init__(self, text, **kwargs):
         super().__init__(text=text, width=60, height=60,
                          texture=arcade.load_texture(
-                             "assets/gui/textures/blue_button02.png"),
+                             button_dir/"blue_button02.png"),
                          texture_hovered=arcade.load_texture(
-                             "assets/gui/textures/blue_button01.png"),
+                             button_dir/"blue_button01.png"),
                          texture_pressed=arcade.load_texture(
-                             "assets/gui/textures/blue_button03.png"), style=styles.styled_texture_button, **kwargs)
+                             button_dir/"blue_button03.png"), style=styles.styled_texture_button,**kwargs)
 
     def do_render(self, surface):
         self.prepare_render(surface)

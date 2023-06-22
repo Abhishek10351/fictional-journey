@@ -8,8 +8,6 @@ class TextureButton(arcade.gui.UITextureButton):
         self.font_name = font_name
         super().__init__(text=text, **kwargs)
 
-
-
     def apply_style(self, style):
 
         font_color = style.get("font_color")

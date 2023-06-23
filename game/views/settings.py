@@ -1,7 +1,7 @@
 import arcade
 import arcade.gui
 from datetime import timedelta
-from gui_widgets import BackButton, UITextureSlider
+from gui_widgets import BackButton, UITextureSlider, TextureToggle
 from game_data import fetch, execute
 from constants import ASSETS_PATH, GUI_PATH
 
@@ -13,17 +13,11 @@ class SettingsView(arcade.View):
 
         back_button = BackButton()
 
-        self.music_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/icons/musicOn.png"), off_texture=arcade.load_texture(
-            "assets/gui/icons/musicOff.png"), width=50, height=50, value=self.window.bg_music_player.playing)
-        button_dir = GUI_PATH / "textures"/"buttons"/"small"
+        self.music_button = TextureToggle("musicOn.png", "musicOff.png",
+        value=self.window.bg_music_player.playing)
         self.music_button.on_click = self.set_music
-        self.music_button.with_background(texture=arcade.load_texture(
-            button_dir/"blue_button03.png"))
 
-        self.sound_button = arcade.gui.UITextureToggle(on_texture=arcade.load_texture("assets/gui/icons/soundOn.png"), off_texture=arcade.load_texture(
-            "assets/gui/icons/soundOff.png"), width=50, height=50, value=True)
-        self.sound_button.with_background(texture=arcade.load_texture(
-            button_dir/"blue_button03.png"))
+        self.sound_button = TextureToggle("soundOn.png", "soundOff.png", value=True)
 
         self.sound_control = arcade.gui.UIBoxLayout(
             vertical=False, space_between=40)

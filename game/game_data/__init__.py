@@ -1,3 +1,3 @@
-from .sql import *
+from .sql import execute, fetch, fetchall
 
 __all__ = ['execute', 'fetch', 'fetchall']

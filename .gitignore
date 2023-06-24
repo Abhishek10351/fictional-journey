@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-
+#nuitka 
+main.build
+main.dist
 # Distribution / packaging
 .Python
 build/
@@ -133,3 +135,5 @@ dmypy.json
 
 # for practicing and learning new libraries and classes
 checks/
+bolts/
+trophies/

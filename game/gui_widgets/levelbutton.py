@@ -16,7 +16,7 @@ class LevelButton(TextureButton):
                          texture_hovered=arcade.load_texture(
                              button_dir/"blue_button01.png"),
                          texture_pressed=arcade.load_texture(
-                             button_dir/"blue_button03.png"), style=styles.styled_texture_button,**kwargs)
+                             button_dir/"blue_button03.png"), style=styles.normal_button, **kwargs)
 
     def do_render(self, surface):
         self.prepare_render(surface)

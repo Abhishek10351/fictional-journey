@@ -53,7 +53,8 @@ class Level(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.powerups_rarity = fetchall("SELECT id, rarity FROM powerups")
         self.powerups_rarity_weights = {
-            "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3, "Epic": 0.15, "Legendary": 0.05}
+            "Common": 0.7, "Uncommon": 0.5, "Rare": 0.3,
+            "Epic": 0.15, "Legendary": 0.05}
         self.powerups_rarity = {
             i[0]: self.powerups_rarity_weights[i[1]]
             for i in self.powerups_rarity}
@@ -64,7 +65,6 @@ class Level(arcade.View):
         self.total_time = timedelta(seconds=0)
         self.lives = 3
         self.manager.clear()
-
         self.manager.add(self.lives_layout)
         self.score = 0
         self.shield = 0
@@ -81,7 +81,7 @@ class Level(arcade.View):
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
-        self.check_powerup_collision()
+        self.check_powerup_hit()
         self.player.update()
         self.lasers.update()
         self.enemy_list.update()
@@ -114,7 +114,7 @@ class Level(arcade.View):
         self.window.show_view(self.window.views["GameOver"])
 
     def level_complete(self):
-        if fetch("SELECT completed FROM levels WHERE level = ?",self.window.current_level)[0] == 1:
+        if fetch("SELECT completed FROM levels WHERE level = ?", self.window.current_level)[0] == 1:
             execute("UPDATE levels SET completed = ? WHERE level = ?",
                     1, self.window.current_level)
 
@@ -175,22 +175,26 @@ class Level(arcade.View):
         if self.shield > 0:
             self.manager.add(self.shield_image)
 
-    def check_powerup_collision(self):
-        for powerup in self.powerups:
-            if powerup.collides_with_sprite(self.player):
+    def check_powerup_hit(self):
+        hit = arcade.check_for_collision_with_list(
+            self.player, self.powerups)
+        if hit:
+            for powerup in hit:
                 powerup.use(self)
                 powerup.kill()
 
     def check_player_hit(self):
 
-        for laser in self.enemy_lasers:
-            if laser.collides_with_sprite(self.player):
+        hit = arcade.check_for_collision_with_list(
+            self.player, self.enemy_lasers)
+        if hit:
+            for laser in hit:
                 laser.kill()
 
-                if not self.shield:
-                    self.lives -= 1
-                else:
-                    self.shield -= 1
+            if not self.shield:
+                self.lives -= 1
+            else:
+                self.shield -= 1
 
     def make_screens(self, x_start):
         screen_block_width = 5
@@ -261,12 +265,14 @@ class Level(arcade.View):
 
     def check_enemy_hit(self, powerups=[]):
         for i in self.lasers:
+            enemy_hit = arcade.check_for_collision_with_list(
+                i, self.enemy_list)
 
             if i.top >= SCREEN_HEIGHT:
                 self.streak = 0
                 self.lasers.remove(i)
-            elif i.collides_with_list(self.enemy_list):
-                for j in i.collides_with_list(self.enemy_list):
+            elif enemy_hit:
+                for j in enemy_hit:
                     self.enemy_list.remove(j)
                     if self.window.sound:
                         arcade.Sound(
@@ -278,8 +284,9 @@ class Level(arcade.View):
                             rarities = list(self.powerups_rarity.values())
                             selected_powerup = random.choices(
                                 powerups, rarities, k=1)
-                            self.add_powerup(
-                                selected_powerup[0], j.center_x, j.center_y)
+                            if (selected_powerup[0] != "sh_04") or not self.shield:
+                                self.add_powerup(
+                                    selected_powerup[0], j.center_x, j.center_y)
                     self.streak += 1
                     if self.streak > 1:
                         self.score += 100 * self.streak

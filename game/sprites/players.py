@@ -55,9 +55,9 @@ class Player2(BasePlayer):
 
     def __init__(self, filename, scale=1, **kwargs):
         super().__init__(filename, scale, **kwargs)
-        self.center_laser_points = (self.center_x, self.top+15)
-        self.right_laser_points = (self.left+5, self.center_y+20)
-        self.left_laser_points = (self.right-5, self.center_y+20)
+        self.center_laser_points = [self.center_x, self.top+15]
+        self.right_laser_points = [self.left+5, self.center_y+20]
+        self.left_laser_points = [self.right-5, self.center_y+20]
 
     @property
     def center_laser(self):
@@ -82,12 +82,16 @@ class Player2(BasePlayer):
         return (x, y)
 
     def update(self):
-        if self.angle <= 90:
-            self.angle += self.change_angle
-        else:
-            self.angle = 90
+        
+        if ((self.right <= SCREEN_WIDTH) and self.change_x>0) or ((self.left >= 0) and self.change_x<0):
+            
+            self.center_laser_points[0] += self.change_x
+            self.right_laser_points[0] += self.change_x
+            self.left_laser_points[0] += self.change_x
+        
+            self.center_x += self.change_x
 
-        if self.angle >= -90:
+        if self.angle <= 90 and self.angle >= -90:
             self.angle += self.change_angle
-        else:
-            self.angle = -90
+        self.angle = max(-90, self.angle)
+        self.angle = min(90, self.angle)

@@ -30,12 +30,6 @@ class HowToPlay(arcade.View):
         self.text.draw()
         self.manager.draw()
 
-    def on_mouse_press(self, x, y, button, modifiers):
-        """ If the user presses the mouse button, re-start the game. """
-
-        game_view = self.window.views["Menu"]
-        self.window.show_view(game_view)
-    
     def on_hide_view(self):
         self.manager.disable()
     

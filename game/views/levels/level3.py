@@ -21,12 +21,16 @@ class Level3(Level):
         self.clear()
         super().setup()
 
-        self.player = sprites.Player1("player_blue.png",
-                                     center_x=SCREEN_WIDTH/2, center_y=50)
+        self.player = sprites.Player1(
+            "player_blue.png",
+            center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_lasers_shooted = 0
         self.create_enemies(
             sprites.Enemy1, "enemyGreen.png", self.no_of_enemies, 0.5)
+
+        for x in range(75, 600, 200):
+            self.make_screens(x)
 
     def on_update(self, delta_time):
         """
@@ -43,8 +47,10 @@ class Level3(Level):
             self.enemy_lasers.append(enemy_laser)
             self.enemy_lasers_shooted += 1
 
+        self.check_safety_screens()
+
         self.check_player_hit()
-        self.check_enemy_hit(powerups=["shield"])
+        self.check_enemy_hit(powerups=["Shield"])
         for i in self.enemy_list:
             if i.bottom <= self.player.top:
                 self.game_over()
@@ -54,6 +60,11 @@ class Level3(Level):
         for i in self.enemy_list:
             i.change_y = 0
         super().on_update(delta_time)
+
+    def on_draw(self):
+        """ Render the screen. """
+        super().on_draw()
+        self.safety_screens.draw()
 
     def on_key_press(self, symbol, modifiers):
         """Called when a key is pressed

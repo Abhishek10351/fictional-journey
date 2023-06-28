@@ -147,15 +147,13 @@ class Level(arcade.View):
 
     def create_enemies(self, enemy_instance, enemy_path,
                        no_of_enemies, scale=1):
-        total = 0
-        while total < no_of_enemies:
+        while len(self.enemy_list) < no_of_enemies:
             enemy = enemy_instance(enemy_path, center_x=random.randint(
                 0, 525), center_y=random.randint(350, 525), scale=scale)
             enemy_x_change = list(range(-5, 5))
             enemy_x_change.remove(0)
             enemy.change_x = random.choice(enemy_x_change)
-            if enemy.left > 0 and enemy.right<SCREEN_WIDTH:
-                total += 1
+            if enemy.left > 0 and enemy.right < SCREEN_WIDTH:
                 self.enemy_list.append(enemy)
 
     def update_shield(self):
@@ -278,15 +276,17 @@ class Level(arcade.View):
                         arcade.Sound(
                             "assets/sounds/hit.wav").play(
                                 volume=self.window.volume)
-                    if "shield" in powerups and ("Shield" not in [i.name for i in self.powerups]):
+                    if "Shield" in powerups and (
+                            "Shield" not in [i.name for i in self.powerups]):
                         if random.randint(1, 5) == 1:
                             powerups = list(self.powerups_rarity.keys())
                             rarities = list(self.powerups_rarity.values())
                             selected_powerup = random.choices(
                                 powerups, rarities, k=1)
-                            if (selected_powerup[0] != "sh_04") or not self.shield:
+                            if (selected_powerup[0] != "sh_04") or self.shield:
                                 self.add_powerup(
-                                    selected_powerup[0], j.center_x, j.center_y)
+                                    selected_powerup[0],
+                                    j.center_x, j.center_y)
                     self.streak += 1
                     if self.streak > 1:
                         self.score += 100 * self.streak

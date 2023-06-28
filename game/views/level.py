@@ -154,7 +154,7 @@ class Level(arcade.View):
             enemy_x_change = list(range(-5, 5))
             enemy_x_change.remove(0)
             enemy.change_x = random.choice(enemy_x_change)
-            if not enemy.collides_with_list(self.enemy_list) or enemy.left > 0:
+            if enemy.left > 0 and enemy.right<SCREEN_WIDTH:
                 total += 1
                 self.enemy_list.append(enemy)
 
@@ -317,3 +317,5 @@ class Level(arcade.View):
         if new_highscore > self.highscore:
             execute("UPDATE levels SET high_score = (?) WHERE level = (?)",
                     new_highscore, self.window.current_level)
+
+# ! red powerup

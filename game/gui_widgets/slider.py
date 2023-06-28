@@ -7,14 +7,13 @@ class UITextureSlider(UISlider):
 
     def __init__(
         self,
-        style=None,
         **kwargs
     ):
-        style = style or UISlider.DEFAULT_STYLE
+        style = UISlider.DEFAULT_STYLE
 
         super().__init__(style=style, **kwargs)
 
-    def do_render(self, surface):
+    def do_render(self, surface: arcade.gui.Surface):
         surface.clear()
         style: UISlider.UIStyle = self.get_current_style()
 

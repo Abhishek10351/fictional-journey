@@ -1,6 +1,7 @@
 import arcade.gui
 from constants import TEXTURES_PATH
 import styles
+import arcade.color
 
 
 class TextureButton(arcade.gui.UITextureButton):
@@ -33,12 +34,12 @@ class StyledTextureButton(TextureButton):
     def __init__(self, size="large", color="blue",
                  oulined=False, flat=False, **kwargs):
 
-        texture_path = TEXTURES_PATH / "buttons" / size
+        texture_path = TEXTURES_PATH / "buttons" / size / color
 
-        texture = texture_path / f"{color}_button00.png"
-        texture_hover = texture_path / f"{color}_button01.png"
-        texture_pressed = texture_path / f"{color}_button02.png"
-        texture_disabled = texture_path / "grey_button00.png"
+        texture = texture_path/ f"{color}_button00.png"
+        texture_hover = texture_path/ f"{color}_button01.png"
+        texture_pressed = texture_path/ f"{color}_button02.png"
+        texture_disabled = texture_path.parent / "grey" / "grey_button00.png"
 
         texture = arcade.load_texture(texture)
         texture_hover = arcade.load_texture(texture_hover)

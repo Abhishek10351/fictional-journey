@@ -3,6 +3,7 @@ import arcade.gui
 from constants import *
 import styles
 from views import levelselection, settings
+from gui_widgets.buttons import StyledTextureButton
 
 
 class Menu(arcade.View):
@@ -12,20 +13,19 @@ class Menu(arcade.View):
 
         self.start_screen = arcade.gui.UIBoxLayout(space_between=20)
 
-        start_button = arcade.gui.UIFlatButton(
-            text="Start Game", width=200,
-            style=styles.dark_button, disabled=True)
+        start_button = StyledTextureButton(
+            text="Start Game", width=200, disabled=True, color="yellow")
         start_button.on_click = self.on_start_button_click
-        how_to_play = arcade.gui.UIFlatButton(
-            text="How to Play", width=200, style=styles.dark_button)
+        how_to_play = StyledTextureButton(
+            text="How to Play", width=200, height=50, color="green")
         how_to_play.on_click = self.on_how_to_play_click
 
-        settings_button = arcade.gui.UIFlatButton(
-            text="Settings", width=200, style=styles.primary_button)
+        settings_button = StyledTextureButton(
+            text="Settings", width=200, color="blue")
         settings_button.on_click = self.on_settings_button_click
 
-        quit_button = arcade.gui.UIFlatButton(
-            text="Exit", width=200, style=styles.danger_button)
+        quit_button = StyledTextureButton(
+            text="Exit", width=200, color="red")
 
         self.start_screen.add(start_button)
         self.start_screen.add(how_to_play)

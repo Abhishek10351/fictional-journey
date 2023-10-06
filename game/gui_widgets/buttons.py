@@ -1,5 +1,5 @@
 import arcade.gui
-from constants import TEXTURES_PATH
+from constants import BUTTON_PATH
 import styles
 import arcade.color
 from PIL import ImageEnhance
@@ -37,7 +37,7 @@ class StyledTextureButton(TextureButton):
     def __init__(self, color="green",
                  outlined=False, flat=False, **kwargs):
         button_type = "outlined" if outlined else "flat" if flat else "basic"
-        texture_path = TEXTURES_PATH / "buttons" / "large" / color
+        texture_path = BUTTON_PATH / "large" / color
         colors = {
             "blue": (43, 98, 186),
             "red": (232, 65, 23),

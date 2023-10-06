@@ -2,32 +2,60 @@ import arcade.color as color
 from arcade.gui import UIFlatButton
 
 UIStyle = UIFlatButton.UIStyle
-
+primary_colors = [(52, 152, 219), (41, 128, 185)]
 primary_button = {
     "normal": UIStyle(
         font_size=12,
         font_name="Kenney Future",
         font_color=color.WHITE,
-        bg=(52, 152, 219)
+        bg=primary_colors[0]
     ),
     "hover": UIStyle(
         font_name="Kenney Future",
         font_color=color.WHITE,
-        bg=(52, 152, 219),
-        border=(41, 128, 185),
+        bg=primary_colors[0],
+        border=primary_colors[1],
         border_width=2,
     ),
     "press": UIStyle(
         font_name="Kenney Future",
         font_color=color.WHITE,
-        bg=(41, 128, 185),
+        bg=primary_colors[1],
         border=None,
         border_width=2,
     ),
     "disabled": UIStyle(
         font_name="Kenney Future",
         font_color=color.GRAY,
-        bg=(41, 128, 185),
+        bg=primary_colors[1],
+    )
+}
+primary_button_outline = {
+    "normal": UIStyle(
+        font_size=12,
+        font_name="Kenney Future",
+        font_color=primary_colors[1],
+        bg=(0, 0, 0, 0),
+        border=primary_colors[1],
+        border_width=1,
+    ),
+    "hover": UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=primary_colors[0],
+    ),
+    "press": UIStyle(
+        font_name="Kenney Future",
+        font_color=color.WHITE,
+        bg=primary_colors[1],
+    ),
+    "disabled": UIStyle(
+        font_size=12,
+        font_name="Kenney Future",
+        font_color=color.GRAY,
+        bg=(0, 0, 0, 0),
+        border=primary_colors[1],
+        border_width=1,
     )
 }
 success_button = {

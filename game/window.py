@@ -1,8 +1,8 @@
 import arcade
-import pyglet.media
 from datetime import timedelta
 from views import levels
 from game_data import fetch, execute
+import pyglet.input
 
 
 class Window(arcade.Window):
@@ -10,7 +10,8 @@ class Window(arcade.Window):
         """
         Set up the application.
         """
-        super().__init__(width, height, title)
+        update_rate = 1/60
+        super().__init__(width, height, title, update_rate=update_rate)
         self.total_time = timedelta(seconds=0.0)
 
         self.total_levels = len(
@@ -22,6 +23,34 @@ class Window(arcade.Window):
         self.bg_music = arcade.load_sound("assets/music/funkyrobot.mp3")
         self.bg_music_player = self.bg_music.play(
             volume=self.volume/100, loop=True)
+        self.controller_manager = pyglet.input.ControllerManager()
+        self.controller_manager.update()
+        controllers = self.controller_manager.get_controllers()
+        self.controller = None
+        if controllers:
+            self.controller = controllers[0]
+            self.controller.open()
+            self.controller.rumble_play_strong(strength=1.0, duration=1)
+            print(self.controller)
+
+        @self.controller_manager.event
+        def on_connect(controller):
+            # code to handle newly connected
+            # (or re-connected) controllers
+            if self.controller == None:
+                self.controller = controller
+                self.controller.open()
+                self.controller.rumble_play_strong(strength=1.0, duration=1)
+
+            print("Connected:", controller)
+
+        @self.controller_manager.event
+        def on_disconnect(controller):
+            # code to handle disconnected Controller
+            if controller == self.controller:
+                self.controller.close()
+                self.controller = None
+            print("Disconnected:", controller)
         if fetch("SELECT music FROM settings;")[0] == 0:
             self.bg_music_player.pause()
         self.game_level_time = timedelta(seconds=0.0)

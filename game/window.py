@@ -2,7 +2,7 @@ import arcade
 import pyglet.media
 from datetime import timedelta
 from views import levels
-from game_data import fetch
+from game_data import fetch, execute
 
 
 class Window(arcade.Window):
@@ -20,7 +20,8 @@ class Window(arcade.Window):
             for i in range(1, self.total_levels+1)]
         self.current_level = 1  # the level currently played
         self.bg_music = arcade.load_sound("assets/music/funkyrobot.mp3")
-        self.bg_music_player = self.bg_music.play(volume=self.volume, loop=True)
+        self.bg_music_player = self.bg_music.play(
+            volume=self.volume/100, loop=True)
         if fetch("SELECT music FROM settings;")[0] == 0:
             self.bg_music_player.pause()
         self.game_level_time = timedelta(seconds=0.0)
@@ -36,3 +37,8 @@ class Window(arcade.Window):
     @property
     def volume(self):
         return fetch("SELECT volume FROM settings;")[0]
+
+    @volume.setter
+    def volume(self, value):
+        execute("UPDATE settings SET volume = ?;", value)
+        self.bg_music_player.volume = value/100

@@ -14,10 +14,11 @@ class SettingsView(arcade.View):
         back_button = BackButton()
 
         self.music_button = TextureToggle("musicOn.png", "musicOff.png",
-        value=self.window.bg_music_player.playing)
+                                          value=self.window.bg_music_player.playing)
         self.music_button.on_click = self.set_music
 
-        self.sound_button = TextureToggle("soundOn.png", "soundOff.png", value=True)
+        self.sound_button = TextureToggle(
+            "soundOn.png", "soundOff.png", value=True)
 
         self.sound_control = arcade.gui.UIBoxLayout(
             vertical=False, space_between=40)
@@ -25,6 +26,12 @@ class SettingsView(arcade.View):
         self.label = arcade.gui.UILabel(text="Settings", font_size=30)
         self.slider = UITextureSlider(
             value=self.window.volume, width=300, height=50)
+
+        @self.slider.event("on_change")
+        def on_change(value):
+            volume = int(value.new_value)
+            if (volume != int(value.old_value)):
+                self.window.volume = volume
 
         self.sound_control.add(self.music_button)
         self.sound_control.add(self.sound_button)

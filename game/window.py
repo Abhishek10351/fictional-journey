@@ -23,8 +23,10 @@ class Window(arcade.Window):
         self.bg_music = arcade.load_sound("assets/music/funkyrobot.mp3")
         self.bg_music_player = self.bg_music.play(
             volume=self.volume/100, loop=True)
+        if fetch("SELECT music FROM settings;")[0] == 0:
+            self.bg_music_player.pause()
+
         self.controller_manager = pyglet.input.ControllerManager()
-        self.controller_manager.update()
         controllers = self.controller_manager.get_controllers()
         self.controller = None
         if controllers:
@@ -51,8 +53,7 @@ class Window(arcade.Window):
                 self.controller.close()
                 self.controller = None
             print("Disconnected:", controller)
-        if fetch("SELECT music FROM settings;")[0] == 0:
-            self.bg_music_player.pause()
+
         self.game_level_time = timedelta(seconds=0.0)
 
     def on_update(self, delta_time):

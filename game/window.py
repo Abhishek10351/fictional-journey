@@ -32,8 +32,6 @@ class Window(arcade.Window):
         if controllers:
             self.controller = controllers[0]
             self.controller.open()
-            self.controller.rumble_play_strong(strength=1.0, duration=1)
-            print(self.controller)
 
         @self.controller_manager.event
         def on_connect(controller):
@@ -42,8 +40,7 @@ class Window(arcade.Window):
             if self.controller == None:
                 self.controller = controller
                 self.controller.open()
-                self.controller.rumble_play_strong(strength=1.0, duration=1)
-
+                self.controller.rumble_play_strong(strength=1.0, duration=0.5)
             print("Connected:", controller)
 
         @self.controller_manager.event

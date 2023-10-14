@@ -49,7 +49,17 @@ class LevelSelection(arcade.View):
     def on_show_view(self):
         self.clear()
         self.manager.enable()
+        if self.window.controller:
+            # connect to events
+            self.window.controller.push_handlers(self)
 
     def on_hide_view(self):
         self.clear()
         self.manager.disable()
+        if self.window.controller:
+            # disconnect from events
+            self.window.controller.remove_handlers(self)
+
+    def on_stick_motion(self, controller, stick, stick_x, stick_y):
+        # use stick to move mouse cursor
+        pass

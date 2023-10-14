@@ -23,7 +23,7 @@ class Level4(Level):
         super().setup()
 
         self.player = sprites.Player2("player_green.png",
-                                     center_x=SCREEN_WIDTH/2, center_y=50)
+                                      center_x=SCREEN_WIDTH/2, center_y=50)
 
         self.enemy_lasers_shooted = 0
         self.create_enemies(
@@ -51,9 +51,9 @@ class Level4(Level):
             self.player.change_x = -5
         if symbol == arcade.key.RIGHT:
             self.player.change_x = 5
-        
+
         if symbol == arcade.key.UP:
-            self.player.change_angle = 1  
+            self.player.change_angle = 1
         if symbol == arcade.key.DOWN:
             self.player.change_angle = -1
 
@@ -65,5 +65,12 @@ class Level4(Level):
         """
         if symbol in [arcade.key.LEFT, arcade.key.RIGHT]:
             self.player.change_x = 0
-        if symbol in [ arcade.key.UP, arcade.key.DOWN]:
+        if symbol in [arcade.key.UP, arcade.key.DOWN]:
             self.player.change_angle = 0
+
+    def on_stick_motion(self, controller, stick, xvalue, yvalue):
+        if stick == "leftstick":
+            self.player.change_x = 10*xvalue
+        else:
+            # use the right stick for turning the player
+            self.player.change_angle = 2 * xvalue

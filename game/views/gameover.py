@@ -18,11 +18,15 @@ class GameOverView(arcade.View):
         self.manager.clear()
         self.manager.add(arcade.gui.UIAnchorLayout(
             children=[self.text], anchor_x="center", anchor_y="center"))
+        if self.window.sound:
+            arcade.Sound(
+                "assets/sounds/game_over.ogg").play(
+                volume=self.window.volume/100)
 
     @property
     def message(self):
         return (f"You have lost level {self.window.current_level}."
-        "Click to continue.")
+                "Click to continue.")
 
     @property
     def text(self):
@@ -42,6 +46,16 @@ class GameOverView(arcade.View):
 
     def on_show_view(self):
         self.manager.enable()
+        if self.window.controller:
+            self.window.controller.push_handlers(self)
 
     def on_hide_view(self):
         self.manager.disable()
+        if self.window.controller:
+            self.window.controller.remove_handlers(self)
+    def on_button_press(self, controller, button):
+        if button in ["b", "back"]:
+            self.window.show_view(self.window.views["LevelSelect"])
+        elif button in ["start", "a"]:
+            self.window.levels[self.window.current_level-1].setup()
+            self.window.show_view(self.window.levels[self.window.current_level-1])

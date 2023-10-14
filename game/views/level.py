@@ -78,6 +78,7 @@ class Level(arcade.View):
         self.enemy_list.clear()
         self.enemy_lasers.clear()
         self.powerups.clear()
+        self.window.controller_manager.push_handlers(self)
 
     def on_update(self, delta_time):
         self.total_time += timedelta(seconds=delta_time)
@@ -129,9 +130,13 @@ class Level(arcade.View):
 
     def on_show_view(self):
         self.manager.enable()
+        if self.window.controller:
+            self.window.controller.push_handlers(self)
 
     def on_hide_view(self):
         self.manager.disable()
+        if self.window.controller:
+            self.window.controller.remove_handlers(self)
 
     def update_score(self):
         if self.score < 0:
@@ -191,6 +196,9 @@ class Level(arcade.View):
 
             if not self.shield:
                 self.lives -= 1
+                if self.window.controller:
+                    self.window.controller.rumble_play_strong(
+                        strength=1.0, duration=1)
             else:
                 self.shield -= 1
 
@@ -257,9 +265,9 @@ class Level(arcade.View):
             if not laser.collides_with_list(self.lasers):
                 self.lasers.append(laser)
 
-        if self.window.sound:
-            arcade.Sound(
-                "assets/sounds/laser.wav").play(volume=self.window.volume)
+                if self.window.sound:
+                    arcade.Sound(
+                        "assets/sounds/laser.wav").play(volume=self.window.volume/100)
 
     def check_enemy_hit(self, powerups=[]):
         for i in self.lasers:
@@ -275,7 +283,7 @@ class Level(arcade.View):
                     if self.window.sound:
                         arcade.Sound(
                             "assets/sounds/hit.wav").play(
-                                volume=self.window.volume)
+                                volume=self.window.volume/100)
                     if "Shield" in powerups and (
                             "Shield" not in [i.name for i in self.powerups]):
                         if random.randint(1, 5) == 1:
@@ -317,5 +325,29 @@ class Level(arcade.View):
         if new_highscore > self.highscore:
             execute("UPDATE levels SET high_score = (?) WHERE level = (?)",
                     new_highscore, self.window.current_level)
+
+    def on_disconnect(self, controller):
+        controller.remove_handlers(self)
+
+    def on_connect(self, controller):
+        controller.push_handlers(self)
+
+    def on_button_press(self, controller, button):
+        if button == "x":
+            self.setup()
+        if button == "start":
+            self.window.show_view(self.window.views["Pause"])
+
+    def on_trigger_motion(self, controller, trigger, value):
+        if trigger == "righttrigger" and value:
+            self.shoot_laser()
+
+    def on_stick_motion(self, controller, stick, xvalue, yvalue):
+        if stick == "leftstick":
+            self.player.change_x = 10 * xvalue
+        else:
+            # use the right stick for turning the player
+            self.player.change_angle = 2 * xvalue
+
 
 # ! red powerup

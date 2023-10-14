@@ -27,9 +27,15 @@ class PauseScreen(arcade.View):
 
     def on_show_view(self):
         self.manager.enable()
+        if self.window.controller:
+            # connect to events
+            self.window.controller.push_handlers(self)
 
     def on_hide_view(self):
         self.manager.disable()
+        if self.window.controller:
+            # disconnect from events
+            self.window.controller.remove_handlers(self)
 
     def on_draw(self):
         self.clear()
@@ -39,3 +45,10 @@ class PauseScreen(arcade.View):
         if symbol == arcade.key.ESCAPE:
             self.window.show_view(
                 self.window.levels[self.window.current_level - 1])
+
+    def on_button_press(self, controller, button):
+        if button == "start":
+            self.window.show_view(
+                self.window.levels[self.window.current_level - 1])
+        if button == "back":
+            self.window.show_view(self.window.views["LevelSelect"])

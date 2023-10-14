@@ -5,6 +5,8 @@ from constants import *
 class LevelUpView(arcade.View):
     """ View to show when a level is completed """
 
+    # todo add replay buttons, show stars
+
     def __init__(self):
         super().__init__()
         arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
@@ -47,6 +49,22 @@ class LevelUpView(arcade.View):
 
     def on_show_view(self):
         self.manager.enable()
+        if self.window.controller:
+            self.window.controller.push_handlers(self)
+
 
     def on_hide_view(self):
         self.manager.disable()
+        if self.window.controller:
+            self.window.controller.remove_handlers(self)
+    def on_button_press(self, controller, button):
+        if button in ["b", "back"]:
+            self.window.show_view(self.window.views["LevelSelect"])
+        elif button in ["start" "x"]:
+            self.window.levels[self.window.current_level-1].setup()
+            self.window.show_view(self.window.levels[self.window.current_level-1])
+        # elif button in ["a"]:
+        #     if self.window.current_level < self.window.total_levels:
+        #         self.window.current_level += 1
+        #         self.window.levels[self.window.current_level-1].setup()
+        #         self.window.show_view(self.window.levels[self.window.current_level-1])

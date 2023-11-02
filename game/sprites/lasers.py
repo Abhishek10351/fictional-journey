@@ -1,5 +1,5 @@
 from arcade import Sprite
-from constants import IMAGES_PATH
+from constants import IMAGES_PATH, SCREEN_WIDTH, SCREEN_HEIGHT
 import math
 
 
@@ -18,3 +18,6 @@ class Laser(Sprite):
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
+        # Remove the sprite if it goes off-screen
+        if (self.top < 0 or self.bottom >SCREEN_HEIGHT) or (self.left > SCREEN_WIDTH or self.right<0):
+            self.kill()

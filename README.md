@@ -28,7 +28,7 @@ in the terminal.
 To run the game try opening the game folder and click the [main.py](/game/main.py) file or just open it using the terminal and run it using python by typing
 
 ```python
-python main.py
+py main.py
 ```
 
 for linux users and mac users
